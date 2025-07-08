@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="#FD904C"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="WebAware"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#070707" />
+
+        <ImageView
+            android:id="@+id/profi"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/user" />
+    </LinearLayout>
+
+    <!-- RECYCLER VIEW -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/quiz"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:contentDescription="Lista delle emergenze"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- BOTTOM NAVIGATION -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:background="#FD904C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Prima immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/casa"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/document"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/casa_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Info"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Seconda immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/quiz"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/quiz"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/quiz_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quiz"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Terza immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/simulation"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/joystick"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/simulation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simulation"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Quarta immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/insight"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/preview"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/insight_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extra"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Quinta immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/eme"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/emergency"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/eme_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

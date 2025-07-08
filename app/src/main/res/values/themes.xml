@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme -->
+    <style name="Theme_MyApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colori personalizzati -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryVariant">@android:color/transparent</item>
+        <item name="colorSecondary">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.WA" parent="Base.Theme.WA" />
+
+    <!-- Tema ad alto contrasto -->
+
+    <style name="HighContrastTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Sfondo scuro ma non nero -->
+        <item name="android:textColor">#FFFFFF</item>
+
+        <item name="android:background">#121A2A</item> <!-- blu molto scuro -->
+        <item name="colorPrimary">#FFC107</item>         <!-- giallo acceso per primary -->
+        <item name="colorOnPrimary">#FFFFFF</item>      <!-- testo scuro su giallo -->
+
+        <item name="colorSecondary">#03DAC6</item>      <!-- ciano acceso -->
+        <item name="colorOnSecondary">#FFC107</item>    <!-- testo scuro su ciano -->
+
+        <item name="android:textColorPrimary">#FFFFFF</item>  <!-- grigio chiaro -->
+        <item name="android:textColorSecondary">#FFFFFF</item> <!-- grigio medio -->
+
+        <item name="android:navigationBarColor">#121A2A</item>
+        <item name="android:statusBarColor">#121A2A</item>
+
+        <!-- Ripple, evidenziazione -->
+        <item name="colorControlHighlight">#FFC107</item>
+
+        <!-- Hint -->
+        <item name="android:textColorHint">#78909C</item> <!-- grigio/blu tenue -->
+
+        <!-- Bottoni, icone -->
+        <item name="android:buttonTint">#FFC107</item>
+    </style>
+
+
+</resources>
+

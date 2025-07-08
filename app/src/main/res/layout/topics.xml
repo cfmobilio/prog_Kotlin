@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:background="#FF7F3F"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back"
+            android:src="@drawable/back"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="WebAware"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Profilo"
+            android:src="@drawable/user"
+            android:padding="8dp"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
+    <!-- CONTENUTO -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <!-- Titolo -->
+            <TextView
+                android:id="@+id/titoloTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titolo argomento"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Anteprima video -->
+            <ImageView
+                android:id="@+id/videoThumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Anteprima video" />
+
+
+            <!-- Descrizione -->
+            <TextView
+                android:id="@+id/descrizioneTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrizione dell'argomento..."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Pulsante Continua -->
+            <Button
+                android:id="@+id/continuaButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CONTINUA"
+                android:backgroundTint="#FF7F3F"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- BOTTOM BAR -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:background="#FD904C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Prima immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/casa"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/document"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/casa_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Info"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Seconda immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/quiz"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/quiz"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/quiz_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quiz"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Terza immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/simulation"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/joystick"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/simulation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simulation"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Quarta immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/insight"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/preview"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/insight_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extra"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Quinta immagine e testo -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/eme"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/emergency"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/eme_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/splashFragment">
+
+    <!-- Splash -->
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.wa.SplashFragment"
+        android:label="Splash">
+        <action
+            android:id="@+id/action_splashFragment_to_quizIntroFragment"
+            app:destination="@id/quizIntroFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <!-- Quiz Intro -->
+    <fragment
+        android:id="@+id/quizIntroFragment"
+        android:name="com.example.wa.presentation.initialQuiz.QuizIntroFragment"
+        android:label="Quiz Intro">
+        <action
+            android:id="@+id/action_quizIntroFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment"/>
+    </fragment>
+
+    <!-- Home -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.wa.presentation.home.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_emergency"
+            app:destination="@id/emergenza" />
+        <action
+            android:id="@+id/action_homeFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_simulationFragment"
+            app:destination="@id/simulation"/>
+
+
+    </fragment>
+
+    <!-- Risultati -->
+    <fragment
+        android:id="@+id/base_result"
+        android:name="com.example.wa.presentation.initialQuiz.BaseResultFragment"
+        android:label="Principiante">
+        <action
+            android:id="@+id/action_base_result_to_accessoFragment"
+            app:destination="@id/accessoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/intermediate_result"
+        android:name="com.example.wa.presentation.initialQuiz.IntermediateResultFragment"
+        android:label="Intermedio">
+        <action
+            android:id="@+id/action_intermediate_result_to_accessoFragment"
+            app:destination="@id/accessoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/advanced_result"
+        android:name="com.example.wa.presentation.initialQuiz.AdvancedResultFragment"
+        android:label="Avanzato">
+        <action
+            android:id="@+id/action_advanced_result_to_accessoFragment"
+            app:destination="@id/accessoFragment" />
+    </fragment>
+
+    <!-- Domande Iniziali -->
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.example.wa.presentation.initialQuiz.QuestionsFragment"
+        android:label="Questions">
+        <action
+            android:id="@+id/action_questionsFragment_to_base_result"
+            app:destination="@id/base_result" />
+        <action
+            android:id="@+id/action_questionsFragment_to_intermediate_result"
+            app:destination="@id/intermediate_result" />
+        <action
+            android:id="@+id/action_questionsFragment_to_advanced_result"
+            app:destination="@id/advanced_result" />
+    </fragment>
+
+    <!-- Pagine d'accesso -->
+    <fragment
+        android:id="@+id/accessoFragment"
+        android:name="com.example.wa.presentation.auth.AccessFragment"
+        android:label="Accesso / Registrazione">
+        <action
+            android:id="@+id/action_accessoFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_accessoFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+
+    </fragment>
+
+    <!-- Login -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.wa.presentation.auth.login.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_accessoFragment"
+            app:destination="@+id/accessoFragment"/>
+
+    </fragment>
+
+    <!--Registrazione -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.wa.presentation.auth.register.RegisterFragment"
+        android:label="Registrazione">
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_accessoFragment"
+            app:destination="@+id/accessoFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.w.presentation.auth.reset.ResetPasswordFragment"
+        android:label="Reset Password" />
+
+    <!-- Sezioni informative -->
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.wa.presentation.home.TopicsFragment"
+        android:label="Informazioni">
+        <argument
+            android:name="titoloArgomento"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_topicsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_topicsFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_topicsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_topicsFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_topicsFragment_to_emergency"
+            app:destination="@id/emergenza" />
+        <action
+            android:id="@+id/action_topicsFragment_to_simulationFragment"
+            app:destination="@id/simulation"/>
+    </fragment>
+
+    <!-- Quiz -->
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.wa.presentation.quiz.QuizFragment"
+        android:label="quiz">
+        <action
+            android:id="@+id/action_quizFragment_to_homeFragment"
+            app:destination="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_quizFragment_to_profileFragment"
+            app:destination="@+id/profileFragment"/>
+        <action
+            android:id="@+id/action_quizFragment_to_simulationFragment"
+            app:destination="@+id/simulation"/>
+        <action
+            android:id="@+id/action_quizFragment_to_extraFragment"
+            app:destination="@+id/extraFragment"/>
+        <action
+            android:id="@+id/action_quizFragment_to_emergencyFragment"
+            app:destination="@+id/emergenza"/>
+        <action
+            android:id="@+id/action_quizFragment_to_domande"
+            app:destination="@+id/domande"/>
+
+    </fragment>
+
+    <!--Risultato dei quiz-->
+    <fragment
+        android:id="@+id/goodjobFragment"
+        android:name="com.example.wa.presentation.quiz.GoodFragment">
+        <action
+            android:id="@+id/action_goodFragment_to_homeFragment"
+            app:destination="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_goodFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_goodFragment_to_profileFragment"
+            app:destination="@+id/profileFragment"/>
+        <action
+            android:id="@+id/action_goodFragment_to_simulationFragment"
+            app:destination="@+id/simulation"/>
+        <action
+            android:id="@+id/action_goodFragment_to_extraFragment"
+            app:destination="@+id/extraFragment"/>
+        <action
+            android:id="@+id/action_goodFragment_to_emergencyFragment"
+            app:destination="@+id/emergenza"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/badjobFragment"
+        android:name="com.example.wa.presentation.quiz.BadFragment">
+    <action
+        android:id="@+id/action_badFragment_to_homeFragment"
+        app:destination="@id/homeFragment"/>
+    <action
+        android:id="@+id/action_badFragment_to_quizFragment"
+        app:destination="@+id/quizFragment"/>
+    <action
+        android:id="@+id/action_badFragment_to_profileFragment"
+        app:destination="@+id/profileFragment"/>
+    <action
+        android:id="@+id/action_badFragment_to_simulationFragment"
+        app:destination="@+id/simulation"/>
+    <action
+        android:id="@+id/action_badFragment_to_extraFragment"
+        app:destination="@+id/extraFragment"/>
+    <action
+        android:id="@+id/action_badFragment_to_emergencyFragment"
+        app:destination="@+id/emergenza"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/domande"
+        android:name="com.example.wa.presentation.quiz.Q_e_AFragment"
+        android:label="domande">
+        <action
+            android:id="@+id/action_domandeFragment_to_goodFragment"
+            app:destination="@+id/goodjobFragment"/>
+        <action
+            android:id="@+id/action_domandeFragment_to_badFragment"
+            app:destination="@+id/badjobFragment"/>
+        <action
+            android:id="@+id/action_domandeFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+
+    </fragment>
+
+    <!-- profilo utente -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.wa.presentation.profile.ProfileFragment"
+        android:label="Profilo">
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/accessoFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_emergency"
+            app:destination="@id/emergenza" />
+        <action
+            android:id="@+id/action_profileFragment_to_extraFragment"
+            app:destination="@+id/extraFragment"/>
+        <action
+            android:id="@+id/action_profileFragment_to_insightFragment"
+            app:destination="@+id/app"/>
+        <action
+            android:id="@+id/action_profileFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_profileFragment_to_simulationFragment"
+            app:destination="@id/simulation"/>
+        <action
+            android:id="@+id/action_profileFragment_to_supportFragment"
+            app:destination="@+id/supportFragment"/>
+        <action
+            android:id="@+id/action_profileFragment_to_accesibility"
+            app:destination="@+id/accessibilityFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.wa.presentation.profile.SupportFragment"
+        android:label="Supporto">
+        <action
+            android:id="@+id/action_supportFragment_to_profileFragment"
+            app:destination="@+id/profileFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/accessibilityFragment"
+        android:name="com.example.wa.presentation.profile.AccessibilityFragment"
+        android:label="Accessibilità">
+        <action
+            android:id="@+id/action_accessibilityFragment_to_profileFragment"
+            app:destination="@+id/profileFragment"/>
+    </fragment>
+
+    <!-- Approfodimenti Fragment -->
+    <fragment
+        android:id="@+id/extraFragment"
+        android:name="com.example.wa.presentation.insight.ExtraFragment"
+        android:label="Approfondimenti">
+        <action
+            android:id="@+id/action_extraFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <argument
+            android:name="titoloArgomento"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_extraFragment_to_infoFragment"
+            app:destination="@+id/infoFragment"/>
+        <action
+            android:id="@+id/action_extraFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_extraFragment_to_emergency"
+            app:destination="@id/emergenza" />
+        <action
+            android:id="@+id/action_extraFragment_to_insightFragment"
+            app:destination="@+id/app"/>
+        <action
+            android:id="@+id/action_extraFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_extraFragment_to_simulationFragment"
+            app:destination="@id/simulation"/>
+    </fragment>
+
+    <!-- Sezioni approfondimenti -->
+    <fragment
+        android:id="@+id/app"
+        android:name="com.example.wa.presentation.insight.InsightFragment"
+        android:label="Sezione informativa per approfondimenti">
+
+        <action
+            android:id="@+id/action_insightFragment_to_homeFragment"
+            app:destination="@+id/homeFragment"/>
+        <action
+            android:id="@+id/action_insightFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_insightFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_insightFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_insightFragment_to_simulationFragment"
+            app:destination="@id/simulation"/>
+        <action
+            android:id="@+id/action_insightFragment_to_emergencyFragment"
+            app:destination="@+id/emergenza"/>
+    </fragment>
+
+    <!-- Simulazioni -->
+    <fragment
+        android:id="@+id/simulation"
+        android:name="com.example.wa.presentation.simulation.SimulationFragment"
+        android:label="Simulazioni">
+
+        <action
+            android:id="@+id/action_simulationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_simulationFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_simulationFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_simulationFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_simulationFragment_to_emergencyFragment"
+            app:destination="@+id/emergenza"/>
+        <action
+            android:id="@+id/action_simulationFragment_to_situationFragment"
+            app:destination="@id/situationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/situationFragment"
+        android:name="com.example.wa.presentation.simulation.SituationFragment"
+        android:label="Situazione" />
+
+
+    <!-- Contatti d'emergenza -->
+    <fragment
+        android:id="@+id/emergenza"
+        android:name="com.example.wa.presentation.emergency.EmergencyFragment"
+        android:label="Contatti d'emergenze">
+
+        <action
+            android:id="@+id/action_emergencyFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_emergencyFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_emergencyFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_emergencyFragment_to_quizFragment"
+            app:destination="@+id/quizFragment"/>
+        <action
+            android:id="@+id/action_extraFragment_to_simulationFragment"
+            app:destination="@+id/simulation"/>
+    </fragment>
+
+
+</navigation>

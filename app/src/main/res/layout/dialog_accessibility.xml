@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/accessibilityLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Header coerente -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:background="#FD904C"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:weightSum="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/back"
+            android:contentDescription="Indietro" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Accessibilità"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <!-- Contenuto accessibilità -->
+    <LinearLayout
+        android:id="@+id/accessibilityContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Switch
+            android:id="@+id/switch_high_contrast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alto contrasto" />
+
+        <Switch
+            android:id="@+id/switch_big_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Testo ingrandito"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/button_read_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leggi testo"
+            android:layout_marginTop="24dp"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

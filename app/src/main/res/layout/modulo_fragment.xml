@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/casa" android:text="Casa" />
+        <Button android:id="@+id/profilo" android:text="Profilo" />
+        <Button android:id="@+id/simulazione" android:text="Simulazione" />
+        <Button android:id="@+id/insight" android:text="Insight" />
+        <Button android:id="@+id/eme" android:text="Eme" />
+    </LinearLayout>
+</LinearLayout>
