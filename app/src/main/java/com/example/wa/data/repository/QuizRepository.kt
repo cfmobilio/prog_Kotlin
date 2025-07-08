@@ -1,6 +1,5 @@
 package com.example.wa.data.repository
 
-// QuizRepository.kt
 import com.example.wa.data.model.Question
 import com.example.wa.data.model.QuizProgress
 import com.google.firebase.auth.FirebaseAuth

@@ -7,9 +7,5 @@ sealed class NavigationDestination {
     object Simulation : NavigationDestination()
     object Insight : NavigationDestination()
     object Emergency : NavigationDestination()
-    object Modulo : NavigationDestination()
-    data class SimulationSituation(val argomento: String) : NavigationDestination()
-    data class ModuloQuestion(val argomentoKey: String) : NavigationDestination()
-
 
 }

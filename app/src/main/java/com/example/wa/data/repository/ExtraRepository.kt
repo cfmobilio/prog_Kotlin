@@ -3,7 +3,6 @@ package com.example.wa.data.repository
 import com.example.wa.R
 import com.example.wa.data.model.App
 
-
 class ExtraRepository {
     fun getApp(): List<App>{
         return listOf(
