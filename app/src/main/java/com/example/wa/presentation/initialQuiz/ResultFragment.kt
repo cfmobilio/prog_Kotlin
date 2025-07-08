@@ -14,7 +14,6 @@ class ResultFragment : Fragment() {
 
     private val viewModel: QuizViewModel by viewModels()
 
-    // Enum per definire i tipi di risultato
     enum class ResultType(
         val layoutId: Int,
         val buttonId: Int,
@@ -76,13 +75,13 @@ class ResultFragment : Fragment() {
         // Puoi aggiungere logica specifica per tipo se necessario
         when (resultType) {
             ResultType.BASE -> {
-                // Logica specifica per BASE se necessaria
+                R.id.action_base_result_to_accessoFragment
             }
             ResultType.INTERMEDIATE -> {
-                // Logica specifica per INTERMEDIATE se necessaria
+                R.id.action_intermediate_result_to_accessoFragment
             }
             ResultType.ADVANCED -> {
-                // Logica specifica per ADVANCED se necessaria
+                R.id.action_intermediate_result_to_accessoFragment
             }
         }
     }

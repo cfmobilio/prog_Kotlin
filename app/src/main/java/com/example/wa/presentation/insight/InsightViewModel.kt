@@ -10,8 +10,6 @@ import com.example.wa.data.model.NavigationEvent
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import android.util.Log
-
 
 class InsightViewModel : ViewModel() {
 
@@ -49,7 +47,6 @@ class InsightViewModel : ViewModel() {
                     .await()
 
                 if (document.exists()) {
-                    Log.d("InsightViewModel", "Dati Firestore: ${document.data}")  // 👈 log utile
 
                     val insightData = document.toObject(Insight::class.java)
 

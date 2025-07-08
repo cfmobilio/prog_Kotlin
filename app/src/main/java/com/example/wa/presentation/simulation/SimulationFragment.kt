@@ -27,7 +27,6 @@ class SimulationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // inizializza correttamente il binding
         _binding = ExtraBinding.inflate(inflater, container, false)
         return binding.root
     }

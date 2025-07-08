@@ -119,7 +119,7 @@ class QuizQuestionViewModel(private val argomento: String) : ViewModel() {
                 }
                 .onFailure { exception ->
                     _error.value = exception.message
-                    _quizCompleted.value = true // Still complete even if save fails
+                    _quizCompleted.value = true
                 }
         }
     }

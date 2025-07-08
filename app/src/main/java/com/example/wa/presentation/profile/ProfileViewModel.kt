@@ -25,11 +25,13 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     private val _uiState = MutableLiveData<ProfileUiState>()
     val uiState: LiveData<ProfileUiState> = _uiState
 
-    private val _navigationEvent = MutableLiveData<NavigationEvent>()
-    val navigationEvent: LiveData<NavigationEvent> = _navigationEvent
+    // Cambiato a nullable per poter gestire lo stato "nessun evento"
+    private val _navigationEvent = MutableLiveData<NavigationEvent?>()
+    val navigationEvent: LiveData<NavigationEvent?> = _navigationEvent
 
-    private val _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> = _toastMessage
+    // Cambiato a nullable per poter gestire lo stato "nessun messaggio"
+    private val _toastMessage = MutableLiveData<String?>()
+    val toastMessage: LiveData<String?> = _toastMessage
 
     init {
         loadUserData()
@@ -89,20 +91,6 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
         _navigationEvent.value = NavigationEvent.NavigateToDestination(destination)
     }
 
-    fun onBackPressed() {
-        // Gestito direttamente dal fragment con findNavController().navigateUp()
-    }
-
-    fun onSupportClicked() {
-        // Assumo che esista una destinazione Support, altrimenti gestisci nel fragment
-        _navigationEvent.value = NavigationEvent.NavigateToDestination(NavigationDestination.Profile) // Placeholder
-    }
-
-    fun onAccessibilityClicked() {
-        // Assumo che esista una destinazione Accessibility, altrimenti gestisci nel fragment
-        _navigationEvent.value = NavigationEvent.NavigateToDestination(NavigationDestination.Profile) // Placeholder
-    }
-
     private fun updateProgressData(badges: Map<String, Boolean>) {
         val unlocked = badges.count { it.value }
         val total = badges.size
@@ -116,12 +104,12 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     }
 
     // Funzione per resettare gli eventi di navigazione dopo che sono stati gestiti
-//    fun onNavigationEventHandled() {
-//        _navigationEvent.value = null
-//    }
-//
-//    // Funzione per resettare i toast dopo che sono stati gestiti
-//    fun onToastMessageHandled() {
-//        _toastMessage.value = null
-//    }
+    fun onNavigationEventHandled() {
+        _navigationEvent.value = null
+    }
+
+    // Funzione per resettare i toast dopo che sono stati gestiti
+    fun onToastMessageHandled() {
+        _toastMessage.value = null
+    }
 }

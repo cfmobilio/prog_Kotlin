@@ -69,10 +69,6 @@ class QuizFragment : Fragment() {
             adapter.updateQuizList(quizList)
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            // Show/hide loading indicator
-        }
-
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()

@@ -17,15 +17,15 @@
         <!-- Sfondo scuro ma non nero -->
         <item name="android:textColor">#FFFFFF</item>
 
-        <item name="android:background">#121A2A</item> <!-- blu molto scuro -->
-        <item name="colorPrimary">#FFC107</item>         <!-- giallo acceso per primary -->
-        <item name="colorOnPrimary">#FFFFFF</item>      <!-- testo scuro su giallo -->
+        <item name="android:background">#121A2A</item>
+        <item name="colorPrimary">#FFC107</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
-        <item name="colorSecondary">#03DAC6</item>      <!-- ciano acceso -->
-        <item name="colorOnSecondary">#FFC107</item>    <!-- testo scuro su ciano -->
+        <item name="colorSecondary">#03DAC6</item>
+        <item name="colorOnSecondary">#FFC107</item>
 
-        <item name="android:textColorPrimary">#FFFFFF</item>  <!-- grigio chiaro -->
-        <item name="android:textColorSecondary">#FFFFFF</item> <!-- grigio medio -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
 
         <item name="android:navigationBarColor">#121A2A</item>
         <item name="android:statusBarColor">#121A2A</item>

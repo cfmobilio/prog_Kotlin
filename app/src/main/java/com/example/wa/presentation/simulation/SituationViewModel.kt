@@ -124,9 +124,4 @@ class SituationViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(feedback = feedback)
     }
 
-    fun clearFeedback() {
-        _uiState.update {
-            it.copy(feedback = null, isAnswerCorrect = null)
-        }
-    }
 }

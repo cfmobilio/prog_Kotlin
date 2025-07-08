@@ -58,11 +58,6 @@ class TopicsFragment : Fragment() {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            if (error != null) {
-                // Gestisci l'errore (toast, snackbar, etc.)
-            }
-        }
     }
 
     private fun setupVideoThumbnail(videoUrl: String) {

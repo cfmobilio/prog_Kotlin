@@ -91,12 +91,6 @@ class RegisterFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            // Gestisci loading state
-            if (state.isLoading) {
-                // Mostra loading indicator
-                // Potresti disabilitare i pulsanti per evitare doppi click
-            }
-
             // Gestisci errori
             state.errorMessage?.let { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

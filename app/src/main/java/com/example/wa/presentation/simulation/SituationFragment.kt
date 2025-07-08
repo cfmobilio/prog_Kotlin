@@ -25,7 +25,7 @@ class SituationFragment : Fragment() {
     ): View {
         _binding = SimulationsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel // opzionale, se hai variabili nel layout
+        binding.viewModel = viewModel
         return binding.root
     }
 

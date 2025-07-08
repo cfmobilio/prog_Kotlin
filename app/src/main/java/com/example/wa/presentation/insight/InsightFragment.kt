@@ -102,7 +102,7 @@ class InsightFragment : Fragment() {
                 }
                 findNavController().navigate(actionId)
             }
-            else -> { /* Altri eventi se necessario */ }
+            else -> { return }
         }
     }
 }

@@ -45,7 +45,7 @@ class EmergencyAdapter(private var lista: List<Emergency>) :
         // Apri il dialer o client email quando si clicca sul contatto
         holder.contatto.setOnClickListener {
             if (emergency.contatto.contains("@")) {
-                // È un'email
+
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = "mailto:${emergency.contatto}".toUri()
                 }

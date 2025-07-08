@@ -12,10 +12,6 @@ class BadFragment : Fragment(R.layout.bad_job) {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners(view)
-
-        // Ottieni informazioni sul quiz fallito (opzionale)
-        val quizId = arguments?.getString("quizId")
-        val percentage = arguments?.getInt("percentage", 0) ?: 0
     }
 
     private fun setupClickListeners(view: View) {

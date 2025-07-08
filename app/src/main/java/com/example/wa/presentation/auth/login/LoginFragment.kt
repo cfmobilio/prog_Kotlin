@@ -81,9 +81,9 @@ class LoginFragment : Fragment() {
             viewModel.signInWithEmail(email, password)
         }
 
-//        forgotPasswordTextView.setOnClickListener {
-//            findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
-//        }
+        forgotPasswordTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
+        }
 
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_accessoFragment)
@@ -97,10 +97,6 @@ class LoginFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            // Gestisci loading state
-            if (state.isLoading) {
-                // Mostra loading indicator
-            }
 
             // Gestisci errori
             state.errorMessage?.let { message ->

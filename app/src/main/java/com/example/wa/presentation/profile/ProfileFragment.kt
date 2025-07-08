@@ -138,19 +138,19 @@ class ProfileFragment : Fragment() {
             handleUiState(uiState)
         }
 
-//        viewModel.navigationEvent.observe(viewLifecycleOwner) { event ->
-//            event?.let {
-//                handleNavigationEvent(it)
-//                viewModel.onNavigationEventHandled()
-//            }
-//        }
-//
-//        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
-//            message?.let {
-//                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-//                viewModel.onToastMessageHandled()
-//            }
-//        }
+        viewModel.navigationEvent.observe(viewLifecycleOwner) { event ->
+            event?.let {
+                handleNavigationEvent(it)
+                viewModel.onNavigationEventHandled()
+            }
+        }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
+            message?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                viewModel.onToastMessageHandled()
+            }
+        }
     }
 
     private fun updateProfile(profileData: ProfileData) {
