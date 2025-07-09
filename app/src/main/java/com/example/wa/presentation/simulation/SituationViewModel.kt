@@ -39,6 +39,34 @@ class SituationViewModel : ViewModel() {
         _navigationEvent.value = null
     }
 
+    // Aggiungi queste funzioni nel tuo SituationViewModel
+
+    fun checkAnswerByCorrectness(isUserAnswerCorrect: Boolean) {
+        val simulazione = _uiState.value.simulazione ?: return
+
+        val feedback = if (isUserAnswerCorrect) {
+            simulazione.feedbackPositivo
+        } else {
+            simulazione.feedbackNegativo
+        }
+
+        _uiState.update {
+            it.copy(
+                feedback = feedback,
+                isAnswerCorrect = isUserAnswerCorrect
+            )
+        }
+    }
+
+    fun clearFeedback() {
+        _uiState.update {
+            it.copy(
+                feedback = null,
+                isAnswerCorrect = null
+            )
+        }
+    }
+
     fun loadSimulazione(tipo: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
