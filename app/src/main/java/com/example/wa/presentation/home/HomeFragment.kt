@@ -28,10 +28,15 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupNavigation(view)
-        enableTTS()
 
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enableTTS()
+    }
+
 
     private fun setupViews(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)

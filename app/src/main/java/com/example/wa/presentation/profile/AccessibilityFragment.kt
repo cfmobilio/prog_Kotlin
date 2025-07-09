@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.wa.MainActivity
 import com.example.wa.R
 
+
 class AccessibilityFragment : Fragment() {
 
     private lateinit var switchContrast: Switch

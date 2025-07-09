@@ -29,6 +29,7 @@ class GoodFragment : Fragment(R.layout.good_job) {
         if (quizId != null && percentage >= 80) {
             badgeViewModel.unlockBadge(quizId)
         }
+
         enableTTS()
 
     }

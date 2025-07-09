@@ -30,9 +30,12 @@ class ExtraFragment : Fragment() {
         setupObservers()
         setupNavigation()
 
-        enableTTS()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enableTTS()
     }
 
     private fun setupRecyclerView() {

@@ -37,5 +37,7 @@ class SupportFragment : Fragment() {
                 feedbackInput.text.clear()
             }
         }
+
+        enableTTS()
     }
 }

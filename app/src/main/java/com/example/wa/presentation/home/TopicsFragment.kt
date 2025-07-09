@@ -35,13 +35,16 @@ class TopicsFragment : Fragment() {
         setupObservers()
         setupNavigation(view)
 
-        enableTTS()
-
         // Carica i dati
         val tipo = arguments?.getString("argomento") ?: "privacy"
         viewModel.loadTopic(tipo)
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enableTTS()
     }
 
     private fun setupViews(view: View) {

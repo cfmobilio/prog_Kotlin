@@ -29,5 +29,7 @@ class SettingsFragment : Fragment() {
             viewModel.toggleAccessibility(isChecked)
             requireActivity().recreate()
         }
+
+        enableTTS()
     }
 }

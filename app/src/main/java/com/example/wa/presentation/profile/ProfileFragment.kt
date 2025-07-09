@@ -53,6 +53,7 @@ class ProfileFragment : Fragment() {
         initViews(view)
         setupClickListeners(view)
         observeViewModel()
+
         enableTTS()
 
     }

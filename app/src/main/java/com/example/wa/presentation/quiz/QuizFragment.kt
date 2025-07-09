@@ -31,9 +31,12 @@ class QuizFragment : Fragment() {
         setupNavigationButtons(view)
         observeViewModel()
 
-        enableTTS()
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enableTTS()
     }
 
     private fun setupRecyclerView(view: View) {

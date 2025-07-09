@@ -35,13 +35,13 @@ class InsightFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Carica il contenuto dall'argomento
         val argomento = arguments?.getString("argomento") ?: "privacy"
         viewModel.loadInsight(argomento)
 
         setupViews(view)
         setupObservers()
         setupListeners()
+
         enableTTS()
 
     }
