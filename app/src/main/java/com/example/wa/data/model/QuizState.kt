@@ -22,6 +22,4 @@ data class QuizState(
     val totalQuestions: Int
         get() = questions.size
 
-    val isQuizCompleted: Boolean
-        get() = currentQuestionIndex >= questions.size
 }
