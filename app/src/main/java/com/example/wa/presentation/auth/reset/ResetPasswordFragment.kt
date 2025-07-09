@@ -8,57 +8,44 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.wa.data.repository.AuthRepository
 import com.example.wa.R
-import com.example.wa.di.ResetPasswordViewModelFactory
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.wa.presentation.auth.reset.ResetPasswordViewModel.ResetState
+import kotlinx.coroutines.flow.collectLatest
 
 class ResetPasswordFragment : Fragment() {
 
-    private lateinit var viewModel: ResetPasswordViewModel
+    private val viewModel: ResetPasswordViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.reset_password, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val authRepository = AuthRepository()
-        val factory = ResetPasswordViewModelFactory(authRepository)
-        viewModel = ViewModelProvider(this, factory)[ResetPasswordViewModel::class.java]
-
-        setupUI(view)
-        observeViewModel()
-    }
-
-    private fun setupUI(view: View) {
         val emailEditText = view.findViewById<EditText>(R.id.emailResetEditText)
         val resetButton = view.findViewById<Button>(R.id.sendResetButton)
 
         resetButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
-            viewModel.sendPasswordResetEmail(email)
+            if (email.isBlank()) {
+                Toast.makeText(requireContext(), "Inserisci un'email valida", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.sendResetEmail(email)
+            }
         }
-    }
 
-    private fun observeViewModel() {
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            if (state.isLoading) {
-                // Mostra loading
-            }
-
-            state.successMessage?.let { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-                viewModel.clearMessages()
-            }
-
-            state.errorMessage?.let { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-                viewModel.clearMessages()
+        lifecycleScope.launchWhenStarted {
+            viewModel.resetState.collectLatest { state ->
+                when (state) {
+                    is ResetState.Success -> {
+                        Toast.makeText(requireContext(), "Email inviata! Controlla la tua casella.", Toast.LENGTH_LONG).show()
+                    }
+                    is ResetState.Error -> {
+                        Toast.makeText(requireContext(), "Errore: ${state.message}", Toast.LENGTH_LONG).show()
+                    }
+                    else -> {}
+                }
             }
         }
     }

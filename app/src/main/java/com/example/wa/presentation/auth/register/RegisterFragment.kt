@@ -1,74 +1,64 @@
 package com.example.wa.presentation.auth.register
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
+import android.util.Log
+import android.view.*
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.wa.data.repository.AuthRepository
 import com.example.wa.R
-import com.example.wa.di.RegisterViewModelFactory
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
+import com.example.wa.presentation.auth.register.RegisterViewModel.RegisterState
+import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.flow.collectLatest
 
 class RegisterFragment : Fragment() {
 
-    private lateinit var viewModel: RegisterViewModel
+    private val viewModel: RegisterViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                Log.d("GOOGLE_LOGIN", "Google account: ${account.email}")
+                Toast.makeText(requireContext(), "Account Google: ${account.email}", Toast.LENGTH_SHORT).show()
+                viewModel.registerWithGoogle(account)
+            } catch (e: ApiException) {
+                Log.e("GOOGLE_LOGIN", "Google SignIn fallito: ${e.statusCode} - ${e.message}")
+                Toast.makeText(requireContext(), "Errore Google: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Log.e("GOOGLE_LOGIN", "Sign-In cancellato o fallito (code=${result.resultCode})")
+            Toast.makeText(requireContext(), "Google Sign-In annullato o fallito", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.sing_up, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // Google config
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        val authRepository = AuthRepository()
-        val factory = RegisterViewModelFactory(authRepository)
-        viewModel = ViewModelProvider(this, factory).get(RegisterViewModel::class.java)
-
-        googleSignInClient = authRepository.getGoogleSignInClient(requireActivity())
-
-        googleSignInLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                try {
-                    val account = task.getResult(ApiException::class.java)
-                    viewModel.registerWithGoogle(account.idToken!!)
-                } catch (e: ApiException) {
-                    viewModel.clearError()
-                }
-            }
-        }
-
-        setupUI(view)
-        observeViewModel()
-    }
-
-    private fun setupUI(view: View) {
         val nameEditText = view.findViewById<EditText>(R.id.nameEditText)
         val emailEditText = view.findViewById<EditText>(R.id.mailEditText)
         val passwordEditText = view.findViewById<EditText>(R.id.passEditText)
         val repeatPasswordEditText = view.findViewById<EditText>(R.id.repeatPasswordEditText)
         val signUpButton = view.findViewById<Button>(R.id.signUpButton)
-        val googleSignInButton = view.findViewById<SignInButton>(R.id.googleSignInButton)
+        val googleButton = view.findViewById<SignInButton>(R.id.googleSignInButton)
         val backButton = view.findViewById<View>(R.id.backButton)
 
         signUpButton.setOnClickListener {
@@ -77,31 +67,39 @@ class RegisterFragment : Fragment() {
             val password = passwordEditText.text.toString()
             val repeatPassword = repeatPasswordEditText.text.toString()
 
-            viewModel.registerWithEmail(name, email, password, repeatPassword)
+            if (name.isBlank() || email.isBlank() || password.isBlank() || repeatPassword.isBlank()) {
+                Toast.makeText(requireContext(), "Completa tutti i campi", Toast.LENGTH_SHORT).show()
+            } else if (password != repeatPassword) {
+                Toast.makeText(requireContext(), "Le password non coincidono", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.registerWithEmail(name, email, password)
+            }
         }
 
-        googleSignInButton.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(signInIntent)
+        googleButton.setOnClickListener {
+            val intent = googleSignInClient.signInIntent
+            googleSignInLauncher.launch(intent)
         }
 
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_accessoFragment)
         }
-    }
 
-    private fun observeViewModel() {
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            // Gestisci errori
-            state.errorMessage?.let { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                viewModel.clearError()
-            }
-
-            // Gestisci navigazione
-            if (state.shouldNavigateToHome) {
-                findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-                viewModel.navigationCompleted()
+        lifecycleScope.launchWhenStarted {
+            viewModel.registerState.collectLatest { state ->
+                when (state) {
+                    is RegisterState.Loading -> {
+                        // mostra spinner se vuoi
+                    }
+                    is RegisterState.Success -> {
+                        Toast.makeText(requireContext(), "Registrazione completata!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
+                    }
+                    is RegisterState.Error -> {
+                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {}
+                }
             }
         }
     }

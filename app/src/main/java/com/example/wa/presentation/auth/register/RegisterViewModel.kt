@@ -1,85 +1,95 @@
 package com.example.wa.presentation.auth.register
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import com.example.wa.data.repository.AuthRepository
-import kotlinx.coroutines.launch
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
-    private val _uiState = MutableLiveData(RegisterUiState())
-    val uiState: LiveData<RegisterUiState> = _uiState
+    private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
 
-    fun registerWithEmail(name: String, email: String, password: String, repeatPassword: String) {
-        // Validazione input
-        when {
-            name.isBlank() || email.isBlank() || password.isBlank() || repeatPassword.isBlank() -> {
-                _uiState.value = _uiState.value?.copy(
-                    errorMessage = "Completa tutti i campi"
-                )
-                return
+    private val _registerState = MutableStateFlow<RegisterState>(RegisterState.Idle)
+    val registerState: StateFlow<RegisterState> = _registerState
+
+    fun registerWithEmail(name: String, email: String, password: String) {
+        _registerState.value = RegisterState.Loading
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null) {
+                        saveUserToFirestore(user.uid, name, email)
+                    }
+                } else {
+                    _registerState.value = RegisterState.Error(task.exception?.message ?: "Errore imprevisto")
+                }
             }
-            password != repeatPassword -> {
-                _uiState.value = _uiState.value?.copy(
-                    errorMessage = "Le password non coincidono"
-                )
-                return
-            }
-            password.length < 6 -> {
-                _uiState.value = _uiState.value?.copy(
-                    errorMessage = "La password deve contenere almeno 6 caratteri"
-                )
-                return
-            }
-        }
-
-        _uiState.value = _uiState.value?.copy(isLoading = true)
-
-        viewModelScope.launch {
-            val result = authRepository.createUserWithEmail(email, password, name)
-            _uiState.value = if (result.isSuccess) {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    isRegistrationSuccessful = true,
-                    shouldNavigateToHome = true
-                )
-            } else {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    errorMessage = "Errore: ${result.exceptionOrNull()?.message}"
-                )
-            }
-        }
     }
 
-    fun registerWithGoogle(idToken: String) {
-        _uiState.value = _uiState.value?.copy(isLoading = true)
-
-        viewModelScope.launch {
-            val result = authRepository.signInWithGoogleAndSaveUser(idToken)
-            _uiState.value = if (result.isSuccess) {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    isRegistrationSuccessful = true,
-                    shouldNavigateToHome = true
-                )
-            } else {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    errorMessage = "Errore con Google: ${result.exceptionOrNull()?.message}"
-                )
+    fun registerWithGoogle(account: GoogleSignInAccount) {
+        _registerState.value = RegisterState.Loading
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null) {
+                        val name = user.displayName ?: ""
+                        val email = user.email ?: ""
+                        saveUserToFirestore(user.uid, name, email)
+                    }
+                } else {
+                    _registerState.value = RegisterState.Error(task.exception?.message ?: "Errore Google")
+                }
             }
-        }
     }
 
-    fun clearError() {
-        _uiState.value = _uiState.value?.copy(errorMessage = null)
+    private fun saveUserToFirestore(uid: String, name: String, email: String) {
+        val userMap = hashMapOf(
+            "name" to name,
+            "email" to email,
+            "badges" to hashMapOf<String, Boolean>()
+        )
+
+        db.collection("users").document(uid).set(userMap)
+            .addOnSuccessListener {
+                val topics = listOf(
+                    "cybersecurity", "privacy", "social_engineering",
+                    "dataprotection", "geopolitics", "phishing",
+                    "anonymity", "blocked_content", "navigation"
+                )
+                for (topic in topics) {
+                    val progress = mapOf(
+                        "percentuale" to 0,
+                        "domandaCorrente" to 0,
+                        "punteggio" to 0
+                    )
+                    db.collection("progressi_utente")
+                        .document(uid)
+                        .collection("argomenti")
+                        .document(topic)
+                        .set(progress)
+                }
+                _registerState.value = RegisterState.Success
+            }
+            .addOnFailureListener {
+                Log.e("RegisterViewModel", "Errore Firestore: ${it.message}")
+                _registerState.value = RegisterState.Error("Errore salvataggio Firestore")
+            }
     }
 
-    fun navigationCompleted() {
-        _uiState.value = _uiState.value?.copy(shouldNavigateToHome = false)
+    sealed class RegisterState {
+        object Idle : RegisterState()
+        object Loading : RegisterState()
+        object Success : RegisterState()
+        data class Error(val message: String) : RegisterState()
     }
 }
+
+

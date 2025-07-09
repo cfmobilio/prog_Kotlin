@@ -1,45 +1,34 @@
 package com.example.wa.presentation.auth.reset
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.wa.data.repository.AuthRepository
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class ResetPasswordViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class ResetPasswordViewModel : ViewModel() {
 
-    private val _uiState = MutableLiveData<ResetPasswordUiState>()
-    val uiState: LiveData<ResetPasswordUiState> = _uiState
+    private val auth = FirebaseAuth.getInstance()
 
-    fun sendPasswordResetEmail(email: String) {
-        if (email.isBlank()) {
-            _uiState.value = ResetPasswordUiState(
-                errorMessage = "Inserisci un'email valida"
-            )
-            return
-        }
+    private val _resetState = MutableStateFlow<ResetState>(ResetState.Idle)
+    val resetState: StateFlow<ResetState> = _resetState
 
-        _uiState.value = ResetPasswordUiState(isLoading = true)
-
-        viewModelScope.launch {
-            val result = authRepository.sendPasswordResetEmail(email)
-            _uiState.value = if (result.isSuccess) {
-                ResetPasswordUiState(
-                    isLoading = false,
-                    successMessage = "Email inviata! Controlla la tua casella."
-                )
-            } else {
-                ResetPasswordUiState(
-                    isLoading = false,
-                    errorMessage = "Errore: ${result.exceptionOrNull()?.message}"
-                )
+    fun sendResetEmail(email: String) {
+        _resetState.value = ResetState.Loading
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                _resetState.value = if (task.isSuccessful) {
+                    ResetState.Success
+                } else {
+                    ResetState.Error(task.exception?.message ?: "Errore reset")
+                }
             }
-        }
     }
 
-    fun clearMessages() {
-        _uiState.value = ResetPasswordUiState()
+    sealed class ResetState {
+        object Idle : ResetState()
+        object Loading : ResetState()
+        object Success : ResetState()
+        data class Error(val message: String) : ResetState()
     }
 }
 

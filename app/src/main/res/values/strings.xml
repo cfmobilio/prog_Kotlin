@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">WebAware</string>
     <string name="pronto_inziamo">Pronto? Inziamo!</string>
-    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="default_web_client_id">
+    497915384237-4tvbnbg0j7tja2b12ipsgqii94eauqfq.apps.googleusercontent.com
+    </string>
 </resources>

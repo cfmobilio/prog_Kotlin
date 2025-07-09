@@ -2,15 +2,16 @@ package com.example.wa.presentation.profile
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.core.net.toUri
 
 class SupportViewModel : ViewModel() {
 
+
     fun sendEmail(context: Context) {
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:supporto@example.com")
+        val mailUri = "mailto:supporto@example.com".toUri()
+        val intent = Intent(Intent.ACTION_SENDTO, mailUri).apply {
             putExtra(Intent.EXTRA_SUBJECT, "Richiesta di Supporto")
             putExtra(Intent.EXTRA_TEXT, "Ciao, ho bisogno di aiuto con...")
         }
@@ -21,6 +22,7 @@ class SupportViewModel : ViewModel() {
             Toast.makeText(context, "Nessuna app email trovata", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     fun validateAndSubmitFeedback(
         context: Context,

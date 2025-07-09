@@ -11,7 +11,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.wa"
+        applicationId = "com.example.pro"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -69,7 +69,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
 
     // Google Sign-In
-    implementation ("com.google.android.gms:play-services-base:18.0.0")
+    implementation ("com.google.android.gms:play-services-auth:21.3.0")
+    implementation ("com.google.firebase:firebase-auth:23.2.1")
+    implementation ("com.google.android.gms:play-services-base:18.6.0")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("androidx.navigationevent:navigationevent-android:1.0.0-alpha04")

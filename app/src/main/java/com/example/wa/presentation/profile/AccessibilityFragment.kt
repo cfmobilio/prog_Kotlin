@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.wa.MainActivity
 import com.example.wa.R
 import kotlinx.coroutines.flow.collectLatest
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 class AccessibilityFragment : Fragment() {
 
     private val viewModel: AccessibilityViewModel by viewModels()
+
     private lateinit var switchContrast: Switch
     private lateinit var buttonRead: Button
     private lateinit var switchLargeText: Switch
@@ -81,11 +83,16 @@ class AccessibilityFragment : Fragment() {
         switchLargeText.isChecked = isLargeText
 
         switchLargeText.setOnCheckedChangeListener { _, isChecked ->
-            // CORREZIONE: underscore invece di asterisco
             prefs.edit().putBoolean("large_text", isChecked).apply()
-            // Usa il metodo corretto di MainActivity
             (activity as? MainActivity)?.updateLargeText(isChecked)
         }
+
+        val backButton = view.findViewById<ImageView>(R.id.backButton)
+
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_accessibilityFragment_to_profileFragment)
+        }
+
     }
 
     override fun onDestroyView() {

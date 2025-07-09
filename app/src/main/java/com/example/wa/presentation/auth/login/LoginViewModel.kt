@@ -1,69 +1,52 @@
 package com.example.wa.presentation.auth.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wa.data.repository.AuthRepository
 import kotlinx.coroutines.launch
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class LoginViewModel : ViewModel() {
 
-    private val _uiState = MutableLiveData(LoginUiState())
-    val uiState: LiveData<LoginUiState> = _uiState
+    private val auth = FirebaseAuth.getInstance()
 
-    fun signInWithEmail(email: String, password: String) {
-        if (email.isBlank() || password.isBlank()) {
-            _uiState.value = _uiState.value?.copy(
-                errorMessage = "Inserisci tutti i campi"
-            )
-            return
-        }
+    private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
+    val loginState: StateFlow<LoginState> = _loginState
 
-        _uiState.value = _uiState.value?.copy(isLoading = true)
-
-        viewModelScope.launch {
-            val result = authRepository.signInWithEmail(email, password)
-            _uiState.value = if (result.isSuccess) {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    isLoginSuccessful = true,
-                    shouldNavigateToHome = true
-                )
-            } else {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    errorMessage = "Credenziali errate o errore di rete"
-                )
+    fun loginWithEmail(email: String, password: String) {
+        _loginState.value = LoginState.Loading
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                _loginState.value = if (task.isSuccessful) {
+                    LoginState.Success
+                } else {
+                    LoginState.Error(task.exception?.message ?: "Errore imprevisto")
+                }
             }
-        }
     }
 
-    fun signInWithGoogle(idToken: String) {
-        _uiState.value = _uiState.value?.copy(isLoading = true)
-
-        viewModelScope.launch {
-            val result = authRepository.signInWithGoogle(idToken)
-            _uiState.value = if (result.isSuccess) {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    isLoginSuccessful = true,
-                    shouldNavigateToHome = true
-                )
-            } else {
-                _uiState.value?.copy(
-                    isLoading = false,
-                    errorMessage = "Autenticazione Google fallita"
-                )
+    fun loginWithGoogle(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        _loginState.value = LoginState.Loading
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                _loginState.value = if (task.isSuccessful) {
+                    LoginState.Success
+                } else {
+                    LoginState.Error(task.exception?.message ?: "Errore autenticazione Google")
+                }
             }
-        }
     }
 
-    fun clearError() {
-        _uiState.value = _uiState.value?.copy(errorMessage = null)
-    }
-
-    fun navigationCompleted() {
-        _uiState.value = _uiState.value?.copy(shouldNavigateToHome = false)
+    sealed class LoginState {
+        object Idle : LoginState()
+        object Loading : LoginState()
+        object Success : LoginState()
+        data class Error(val message: String) : LoginState()
     }
 }
+
+
