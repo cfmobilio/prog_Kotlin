@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class BadFragment : Fragment(R.layout.bad_job) {
 
@@ -12,6 +13,7 @@ class BadFragment : Fragment(R.layout.bad_job) {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners(view)
+        enableTTS()
     }
 
     private fun setupClickListeners(view: View) {

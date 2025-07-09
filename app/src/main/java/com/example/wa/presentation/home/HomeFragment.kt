@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class HomeFragment : Fragment() {
 
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupNavigation(view)
+        enableTTS()
 
         return view
     }

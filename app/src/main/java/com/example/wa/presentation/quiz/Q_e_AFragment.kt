@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.wa.R
 import com.example.wa.data.model.Question
+import com.example.wa.presentation.profile.enableTTS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -100,6 +101,9 @@ class Q_e_AFragment : Fragment() {
                 mostraDomanda()
             }
         }
+
+        enableTTS()
+
     }
 
     private fun caricaDomande() {

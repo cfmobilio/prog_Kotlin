@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.core.content.edit
+import com.example.wa.presentation.profile.enableTTS
 
 class SplashFragment : Fragment() {
 
@@ -35,5 +36,7 @@ class SplashFragment : Fragment() {
                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
             }
         }, 2000)
+        enableTTS()
+
     }
 }

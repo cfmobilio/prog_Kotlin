@@ -13,6 +13,7 @@ import com.example.wa.R
 import com.example.wa.data.model.NavigationDestination
 import com.example.wa.data.model.NavigationEvent
 import com.example.wa.databinding.InsightsBinding
+import com.example.wa.presentation.profile.enableTTS
 
 class InsightFragment : Fragment() {
     private lateinit var titoloTextView: TextView
@@ -41,6 +42,8 @@ class InsightFragment : Fragment() {
         setupViews(view)
         setupObservers()
         setupListeners()
+        enableTTS()
+
     }
 
     private fun setupViews(view: View) {
@@ -67,7 +70,7 @@ class InsightFragment : Fragment() {
         binding.casa.setOnClickListener {
             viewModel.onNavigationClicked(NavigationDestination.Home)
         }
-        binding.quiz.setOnClickListener {
+         binding.quiz.setOnClickListener {
             viewModel.onNavigationClicked(NavigationDestination.Quiz)
         }
         binding.simulation.setOnClickListener {

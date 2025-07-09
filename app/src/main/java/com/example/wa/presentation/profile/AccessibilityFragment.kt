@@ -1,3 +1,4 @@
+// AccessibilityFragment.kt - Versione semplificata
 package com.example.wa.presentation.profile
 
 import android.content.Context
@@ -5,16 +6,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wa.MainActivity
 import com.example.wa.R
-import kotlinx.coroutines.flow.collectLatest
 
 class AccessibilityFragment : Fragment() {
-
-    private val viewModel: AccessibilityViewModel by viewModels()
 
     private lateinit var switchContrast: Switch
     private lateinit var buttonRead: Button
@@ -30,73 +26,53 @@ class AccessibilityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Applica le dimensioni del testo se necessario
+        // Applica accessibilità
         view.applyAccessibilityTextSize(requireContext())
 
+        // ABILITA TTS - UNA SOLA RIGA!
+        enableTTS()
+
         val prefs = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-        val highContrastEnabled = prefs.getBoolean("accessibility_mode", false)
 
+        setupSwitches(view, prefs)
+        setupNavigation(view)
+    }
+
+    private fun setupSwitches(view: View, prefs: android.content.SharedPreferences) {
+        // High Contrast
         switchContrast = view.findViewById(R.id.switch_high_contrast)
-        buttonRead = view.findViewById(R.id.button_read_text)
-
-        switchContrast.isChecked = highContrastEnabled
+        switchContrast.isChecked = prefs.getBoolean("accessibility_mode", false)
         switchContrast.setOnCheckedChangeListener { _, isChecked ->
-            // CORREZIONE: underscore invece di asterisco
             prefs.edit().putBoolean("accessibility_mode", isChecked).apply()
             (activity as? MainActivity)?.applyHighContrast(isChecked)
         }
 
-        viewModel.initTTS()
-
-        buttonRead.setOnClickListener {
-            viewModel.speak("Esempio di testo letto da Text to Speech")
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.isTtsReady.collectLatest { ready ->
-                if (!ready) {
-                    Toast.makeText(context, "Lingua non supportata o errore TTS", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
+        // TTS
         switchTts = view.findViewById(R.id.switch_tts)
-        val ttsEnabled = prefs.getBoolean("tts_enabled", false)
-        switchTts.isChecked = ttsEnabled
-
-        if (ttsEnabled) {
-            viewModel.initTTS()
-        }
-
+        switchTts.isChecked = prefs.getBoolean("tts_enabled", false)
         switchTts.setOnCheckedChangeListener { _, isChecked ->
-            // CORREZIONE: underscore invece di asterisco
-            prefs.edit().putBoolean("tts_enabled", isChecked).apply()
-            if (isChecked) {
-                viewModel.initTTS()
-            } else {
-                viewModel.releaseTTS()
-            }
+            TTSHelper.setEnabled(isChecked)
         }
 
-        switchLargeText = view.findViewById(R.id.switch_big_text)
-        val isLargeText = prefs.getBoolean("large_text", false)
-        switchLargeText.isChecked = isLargeText
+        // Button test
+        buttonRead = view.findViewById(R.id.button_read_text)
+        buttonRead.setOnClickListener {
+            TTSHelper.speak("Esempio di testo letto da Text to Speech")
+        }
 
+        // Large Text
+        switchLargeText = view.findViewById(R.id.switch_big_text)
+        switchLargeText.isChecked = prefs.getBoolean("large_text", false)
         switchLargeText.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("large_text", isChecked).apply()
             (activity as? MainActivity)?.updateLargeText(isChecked)
         }
+    }
 
+    private fun setupNavigation(view: View) {
         val backButton = view.findViewById<ImageView>(R.id.backButton)
-
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_accessibilityFragment_to_profileFragment)
         }
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.releaseTTS()
     }
 }

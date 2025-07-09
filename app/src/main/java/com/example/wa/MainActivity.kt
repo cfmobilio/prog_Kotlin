@@ -3,6 +3,7 @@ package com.example.wa
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wa.presentation.profile.TTSHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        TTSHelper.init(application)
+
     }
 
     // AGGIUNTO: metodo chiamato dal Fragment

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wa.R
 import com.example.wa.data.repository.SimulationRepository
 import com.example.wa.databinding.ExtraBinding
+import com.example.wa.presentation.profile.enableTTS
 
 class SimulationFragment : Fragment() {
 
@@ -37,6 +38,8 @@ class SimulationFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupNavigation()
+        enableTTS()
+
     }
 
     private fun setupRecyclerView() {
@@ -56,13 +59,20 @@ class SimulationFragment : Fragment() {
     }
 
     private fun setupNavigation() {
+        binding.casa.setOnClickListener {
+            findNavController().navigate(R.id.action_simulationFragment_to_homeFragment)
+        }
         binding.quiz.setOnClickListener {
             findNavController().navigate(R.id.action_simulationFragment_to_quizFragment)
         }
-
-
+        binding.insight.setOnClickListener {
+            findNavController().navigate(R.id.action_simulationFragment_to_extraFragment)
+        }
         binding.eme.setOnClickListener {
             findNavController().navigate(R.id.action_simulationFragment_to_emergencyFragment)
+        }
+        binding.profi.setOnClickListener {
+            findNavController().navigate(R.id.action_simulationFragment_to_profileFragment)
         }
     }
 

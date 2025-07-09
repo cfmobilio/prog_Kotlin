@@ -1,3 +1,4 @@
+// EmergencyFragment.kt - Versione semplificata
 package com.example.wa.presentation.emergency
 
 import android.graphics.Color
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class EmergencyFragment : Fragment() {
 
@@ -22,17 +24,20 @@ class EmergencyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Rende la status bar trasparente
         requireActivity().window.statusBarColor = Color.TRANSPARENT
-
         val view = inflater.inflate(R.layout.emergency, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupViews(view)
         setupRecyclerView()
         setupObservers()
         setupNavigation(view)
 
-        return view
+        enableTTS()
     }
 
     private fun setupViews(view: View) {

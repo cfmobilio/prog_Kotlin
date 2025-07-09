@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class QuizFragment : Fragment() {
 
@@ -29,6 +30,8 @@ class QuizFragment : Fragment() {
         setupRecyclerView(view)
         setupNavigationButtons(view)
         observeViewModel()
+
+        enableTTS()
 
         return view
     }

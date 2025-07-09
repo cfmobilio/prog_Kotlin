@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wa.R
 import com.example.wa.databinding.ExtraBinding
+import com.example.wa.presentation.profile.enableTTS
 
 class ExtraFragment : Fragment() {
     private var _binding: ExtraBinding? = null
@@ -28,6 +29,8 @@ class ExtraFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupNavigation()
+
+        enableTTS()
 
         return binding.root
     }

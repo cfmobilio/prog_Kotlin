@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class TopicsFragment : Fragment() {
 
@@ -33,6 +34,8 @@ class TopicsFragment : Fragment() {
         setupViews(view)
         setupObservers()
         setupNavigation(view)
+
+        enableTTS()
 
         // Carica i dati
         val tipo = arguments?.getString("argomento") ?: "privacy"

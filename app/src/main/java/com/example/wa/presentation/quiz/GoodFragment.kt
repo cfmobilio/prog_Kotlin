@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.wa.R
+import com.example.wa.presentation.profile.enableTTS
 
 class GoodFragment : Fragment(R.layout.good_job) {
     private lateinit var badgeViewModel: BadgeViewModel
@@ -28,6 +29,8 @@ class GoodFragment : Fragment(R.layout.good_job) {
         if (quizId != null && percentage >= 80) {
             badgeViewModel.unlockBadge(quizId)
         }
+        enableTTS()
+
     }
 
     private fun setupClickListeners(view: View) {

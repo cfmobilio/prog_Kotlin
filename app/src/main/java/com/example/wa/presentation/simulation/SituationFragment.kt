@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wa.R
 import com.example.wa.databinding.SimulationsBinding
+import com.example.wa.presentation.profile.enableTTS
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -40,6 +41,8 @@ class SituationFragment : Fragment() {
 
         setupListeners()
         observeUiState()
+        enableTTS()
+
     }
 
     private fun setupListeners() {
