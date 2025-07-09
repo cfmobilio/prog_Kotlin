@@ -1,45 +1,78 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme -->
-    <style name="Theme_MyApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Colori personalizzati -->
-        <item name="colorPrimary">@android:color/transparent</item>
-        <item name="colorPrimaryVariant">@android:color/transparent</item>
-        <item name="colorSecondary">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+    <!-- Tema base -->
+    <style name="Theme.WA" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colori standard -->
+        <item name="colorPrimary">#FD904C</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#FFA726</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Colori di sistema -->
+        <item name="android:statusBarColor">#FD904C</item>
+        <item name="android:navigationBarColor">#FD904C</item>
+
+        <!-- Testi -->
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#444444</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Theme.WA" parent="Base.Theme.WA" />
+    <!-- Tema con testo ingrandito -->
+    <style name="Theme.WA.LargeText" parent="Theme.WA">
+        <!-- Dimensioni testo ingrandite -->
+        <item name="android:textSize">20sp</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.WA.Headline1.Large</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.WA.Headline2.Large</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.WA.Body1.Large</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.WA.Body2.Large</item>
+        <item name="textAppearanceButton">@style/TextAppearance.WA.Button.Large</item>
+    </style>
 
     <!-- Tema ad alto contrasto -->
-
-    <style name="HighContrastTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Sfondo scuro ma non nero -->
-        <item name="android:textColor">#FFFFFF</item>
-
+    <style name="Theme.WA.HighContrast" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colori forti e sfondo scuro -->
         <item name="android:background">#121A2A</item>
-        <item name="colorPrimary">#FFC107</item>
+        <item name="colorPrimary">#FFFFFF</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-
         <item name="colorSecondary">#03DAC6</item>
-        <item name="colorOnSecondary">#FFC107</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
 
+        <!-- Testo -->
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#CCCCCC</item>
+        <item name="android:textColorHint">#78909C</item>
 
+        <!-- Sistema -->
         <item name="android:navigationBarColor">#121A2A</item>
         <item name="android:statusBarColor">#121A2A</item>
 
-        <!-- Ripple, evidenziazione -->
-        <item name="colorControlHighlight">#FFC107</item>
+        <!-- Effetti -->
+        <item name="colorControlHighlight">#FFFFFF</item>
+        <item name="android:buttonTint">#FFFFFF</item>
 
-        <!-- Hint -->
-        <item name="android:textColorHint">#78909C</item> <!-- grigio/blu tenue -->
-
-        <!-- Bottoni, icone -->
-        <item name="android:buttonTint">#FFC107</item>
     </style>
 
+    <!-- Stili per testo ingrandito -->
+    <style name="TextAppearance.WA.Headline1.Large" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.WA.Headline2.Large" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="TextAppearance.WA.Body1.Large" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.WA.Body2.Large" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.WA.Button.Large" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">18sp</item>
+    </style>
 
 </resources>
-

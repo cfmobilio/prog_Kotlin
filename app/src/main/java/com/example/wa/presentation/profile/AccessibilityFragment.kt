@@ -16,6 +16,8 @@ class AccessibilityFragment : Fragment() {
     private val viewModel: AccessibilityViewModel by viewModels()
     private lateinit var switchContrast: Switch
     private lateinit var buttonRead: Button
+    private lateinit var switchLargeText: Switch
+    private lateinit var switchTts: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,6 +28,9 @@ class AccessibilityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Applica le dimensioni del testo se necessario
+        view.applyAccessibilityTextSize(requireContext())
+
         val prefs = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val highContrastEnabled = prefs.getBoolean("accessibility_mode", false)
 
@@ -34,6 +39,7 @@ class AccessibilityFragment : Fragment() {
 
         switchContrast.isChecked = highContrastEnabled
         switchContrast.setOnCheckedChangeListener { _, isChecked ->
+            // CORREZIONE: underscore invece di asterisco
             prefs.edit().putBoolean("accessibility_mode", isChecked).apply()
             (activity as? MainActivity)?.applyHighContrast(isChecked)
         }
@@ -50,6 +56,35 @@ class AccessibilityFragment : Fragment() {
                     Toast.makeText(context, "Lingua non supportata o errore TTS", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        switchTts = view.findViewById(R.id.switch_tts)
+        val ttsEnabled = prefs.getBoolean("tts_enabled", false)
+        switchTts.isChecked = ttsEnabled
+
+        if (ttsEnabled) {
+            viewModel.initTTS()
+        }
+
+        switchTts.setOnCheckedChangeListener { _, isChecked ->
+            // CORREZIONE: underscore invece di asterisco
+            prefs.edit().putBoolean("tts_enabled", isChecked).apply()
+            if (isChecked) {
+                viewModel.initTTS()
+            } else {
+                viewModel.releaseTTS()
+            }
+        }
+
+        switchLargeText = view.findViewById(R.id.switch_big_text)
+        val isLargeText = prefs.getBoolean("large_text", false)
+        switchLargeText.isChecked = isLargeText
+
+        switchLargeText.setOnCheckedChangeListener { _, isChecked ->
+            // CORREZIONE: underscore invece di asterisco
+            prefs.edit().putBoolean("large_text", isChecked).apply()
+            // Usa il metodo corretto di MainActivity
+            (activity as? MainActivity)?.updateLargeText(isChecked)
         }
     }
 

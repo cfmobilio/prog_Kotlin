@@ -80,5 +80,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
 
+    implementation ("androidx.cardview:cardview:1.0.0")
+
 
 }

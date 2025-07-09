@@ -1,24 +1,29 @@
 package com.example.wa.presentation.quiz
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.util.Log
+import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.wa.R
-import com.example.wa.di.QuizQuestionViewModelFactory
-import android.widget.Toast
-
+import com.example.wa.data.model.Question
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.FieldPath
 
 class Q_e_AFragment : Fragment() {
-    private lateinit var viewModel: QuizQuestionViewModel
-    private lateinit var argomento: String
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private val args: Q_e_AFragmentArgs by navArgs()
+    private val argomento by lazy { args.argomento }
+
+    private var domande = mutableListOf<Question>()
+    private var domandaCorrente = 0
+    private var punteggio = 0
 
     // UI elements
     private lateinit var textTitoloDomanda: TextView
@@ -37,20 +42,10 @@ class Q_e_AFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        argomento = arguments?.getString("argomento") ?: return
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
-        initializeViewModel()
-        initializeViews(view)
-        setupClickListeners(view)
-        observeViewModel()
-    }
-
-    private fun initializeViewModel() {
-        val factory = QuizQuestionViewModelFactory(argomento)
-        viewModel = ViewModelProvider(this, factory)[QuizQuestionViewModel::class.java]
-    }
-
-    private fun initializeViews(view: View) {
+        // Inizializza UI
         textTitoloDomanda = view.findViewById(R.id.textTitoloDomanda)
         textDomanda = view.findViewById(R.id.textDomanda)
         radioGroupOpzioni = view.findViewById(R.id.radioGroupOpzioni)
@@ -59,14 +54,19 @@ class Q_e_AFragment : Fragment() {
         opzione3 = view.findViewById(R.id.opzione3)
         buttonAvanti = view.findViewById(R.id.buttonAvanti)
         buttonIndietro = view.findViewById(R.id.buttonIndietro)
-    }
 
-    private fun setupClickListeners(view: View) {
+        // Pulsante indietro generale (esci quiz)
         view.findViewById<View>(R.id.backbutton).setOnClickListener {
-            viewModel.saveCurrentProgress()
+            salvaProgressoParziale()
             findNavController().navigate(R.id.action_domandeFragment_to_quizFragment)
         }
 
+        ripristinaProgresso {
+            caricaDomande()
+        }
+
+
+        // Avanti: controlla risposta e vai avanti o finisci
         buttonAvanti.setOnClickListener {
             val selectedId = radioGroupOpzioni.checkedRadioButtonId
             if (selectedId != -1) {
@@ -76,90 +76,181 @@ class Q_e_AFragment : Fragment() {
                     R.id.opzione3 -> 2
                     else -> -1
                 }
-                viewModel.submitAnswer(rispostaSelezionata)
+
+                // Se risposta corretta, aumenta punteggio
+                if (rispostaSelezionata == domande[domandaCorrente].rispostaCorretta) {
+                    punteggio++
+                }
+
+                domandaCorrente++
+                if (domandaCorrente < domande.size) {
+                    mostraDomanda()
+                } else {
+                    mostraRisultato()
+                }
             } else {
                 Toast.makeText(requireContext(), "Seleziona una risposta!", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Indietro: torna alla domanda precedente se possibile
         buttonIndietro.setOnClickListener {
-            viewModel.goToPreviousQuestion()
-        }
-    }
-
-    private fun observeViewModel() {
-        viewModel.domande.observe(viewLifecycleOwner) { domande ->
-            // Questions loaded, UI will be updated when currentQuestionIndex changes
-        }
-
-        viewModel.currentQuestionIndex.observe(viewLifecycleOwner) { index ->
-            showQuestion(index)
-        }
-
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            // Show/hide loading indicator
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        viewModel.quizCompleted.observe(viewLifecycleOwner) { completed ->
-            if (completed) {
-                navigateToResult()
+            if (domandaCorrente > 0) {
+                domandaCorrente--
+                mostraDomanda()
             }
         }
     }
 
-    private fun showQuestion(index: Int) {
-        val domande = viewModel.domande.value ?: return
-        if (index >= domande.size) return
+    private fun caricaDomande() {
 
-        val domanda = domande[index]
-        textTitoloDomanda.text = "Domanda ${index + 1}/${domande.size}"
+        db.collection("quiz_$argomento")
+            .get()
+            .addOnSuccessListener { result ->
+
+                domande.clear()
+                for (document in result) {
+                    val domanda = document.toObject(Question::class.java)
+                    domande.add(domanda)
+                }
+
+                if (domande.isNotEmpty()) {
+                    // Se progresso errato, resetta
+                    if (domandaCorrente >= domande.size) {
+                        domandaCorrente = 0
+                        punteggio = 0
+                    }
+                    mostraDomanda()
+                } else {
+                    Toast.makeText(requireContext(), "Nessuna domanda trovata", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(), "Errore nel caricamento delle domande", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    private fun mostraDomanda() {
+        if (domande.isEmpty()) {
+            return
+        }
+
+        if (domandaCorrente >= domande.size) {
+            domandaCorrente = 0
+        }
+
+        val domanda = domande[domandaCorrente]
+
+        // AGGIORNA L'UI CON I DATI DELLA DOMANDA
+        textTitoloDomanda.text = "Domanda ${domandaCorrente + 1}/${domande.size}"
         textDomanda.text = domanda.testo
+
+        // Popola le opzioni di risposta
+        opzione1.text = domanda.opzioni[0]
+        opzione2.text = domanda.opzioni[1]
+        opzione3.text = domanda.opzioni[2]
+
+        // Resetta la selezione del RadioGroup
         radioGroupOpzioni.clearCheck()
 
-        listOf(opzione1, opzione2, opzione3).forEach { it.visibility = View.GONE }
+        // Gestisci la visibilità dei pulsanti
+        buttonIndietro.visibility = if (domandaCorrente > 0) View.VISIBLE else View.GONE
+        buttonAvanti.text = if (domandaCorrente < domande.size - 1) "Avanti" else "Termina"
 
-        domanda.opzioni.forEachIndexed { i, testo ->
-            when (i) {
-                0 -> {
-                    opzione1.text = testo
-                    opzione1.visibility = View.VISIBLE
-                }
-                1 -> {
-                    opzione2.text = testo
-                    opzione2.visibility = View.VISIBLE
-                }
-                2 -> {
-                    opzione3.text = testo
-                    opzione3.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        buttonIndietro.visibility = if (index == 0) View.INVISIBLE else View.VISIBLE
-        buttonAvanti.text = if (index == domande.size - 1) "Fine" else "Avanti"
     }
 
-    private fun navigateToResult() {
-        val percentage = viewModel.getFinalPercentage()
-        val bundle = Bundle().apply {
-            putString("quizId", argomento)
-            putInt("percentage", percentage)
-        }
+    private fun mostraRisultato() {
+        val percentuale = (punteggio.toFloat() / domande.size * 100).toInt()
+        val uid = auth.currentUser?.uid ?: return
 
-        when {
-            percentage >= 80 -> findNavController().navigate(R.id.action_domandeFragment_to_goodFragment, bundle)
-            else -> findNavController().navigate(R.id.action_domandeFragment_to_badFragment, bundle)
+        db.collection("progressi_utente")
+            .document(uid)
+            .collection("argomenti")
+            .document(argomento)
+            .set(mapOf("percentuale" to percentuale))
+            .addOnSuccessListener {
+                if (percentuale >= 80) assegnaBadge(uid)
+                navigateInBaseAlPunteggio()
+            }
+            .addOnFailureListener {
+                navigateInBaseAlPunteggio()
+            }
+    }
+
+    private fun salvaProgressoParziale() {
+        val uid = auth.currentUser?.uid ?: return
+
+        val data = mapOf(
+            "domandaCorrente" to domandaCorrente,
+            "punteggio" to punteggio
+        )
+
+        db.collection("progressi_utente")
+            .document(uid)
+            .collection("argomenti")
+            .document(argomento)
+            .set(data, SetOptions.merge())
+
+    }
+
+    private fun ripristinaProgresso(onComplete: () -> Unit) {
+        val uid = auth.currentUser?.uid ?: return onComplete()
+
+        db.collection("progressi_utente")
+            .document(uid)
+            .collection("argomenti")
+            .document(argomento)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    domandaCorrente = document.getLong("domandaCorrente")?.toInt() ?: 0
+                    punteggio = document.getLong("punteggio")?.toInt() ?: 0
+                }
+                onComplete()
+            }
+            .addOnFailureListener {
+                onComplete()
+            }
+    }
+
+    private fun assegnaBadge(uid: String) {
+        val badgeMap = mapOf(
+            "privacy" to "lock",
+            "cybersecurity" to "banned",
+            "phishing" to "target",
+            "dipendenza" to "eyes",
+            "fake" to "fact_check",
+            "sicurezza" to "key",
+            "truffe" to "private_detective",
+            "dati" to "floppy_disk",
+            "netiquette" to "earth",
+            "navigazione" to  "compass",
+        )
+
+        val badgeKey = badgeMap[argomento.lowercase().replace(" ", "_")]
+
+        badgeKey?.let {
+            val badgeFieldPath = FieldPath.of("badges", it)
+            db.collection("users").document(uid).update(badgeFieldPath, true)
+                .addOnSuccessListener {
+                    Log.d("DEBUG", "Badge $it correttamente sbloccato")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("DEBUG", "Errore aggiornamento badge: ${e.message}")
+                }
+        }
+    }
+
+    private fun navigateInBaseAlPunteggio() {
+        when (punteggio) {
+            in 0..3 -> findNavController().navigate(R.id.action_domandeFragment_to_badFragment)
+            else -> findNavController().navigate(R.id.action_domandeFragment_to_goodFragment)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        viewModel.saveCurrentProgress()
+        salvaProgressoParziale()
     }
 }

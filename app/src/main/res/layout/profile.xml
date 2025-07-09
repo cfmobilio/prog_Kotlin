@@ -110,82 +110,100 @@
         app:layout_constraintTop_toBottomOf="@+id/progressText" />
 
     <!-- ICONS -->
-    <GridLayout
-        android:id="@+id/iconGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:id="@+id/badgeScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:alignmentMode="alignMargins"
-        android:columnCount="3"
-        android:rowOrderPreserved="false"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/badgesTitle"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/badgesTitle">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 9 icone (puoi metterle dinamiche se vuoi) -->
-        <ImageView
-            android:id="@+id/badge_lock"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/lock" />
+        <GridLayout
+            android:id="@+id/iconGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:rowOrderPreserved="false"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp">
 
-        <ImageView
-            android:id="@+id/badge_compass"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/compass" />
+            <ImageView
+                android:id="@+id/badge_lock"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/lock" />
 
-        <ImageView
-            android:id="@+id/badge_target"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/target" />
+            <ImageView
+                android:id="@+id/badge_compass"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/compass" />
 
-        <ImageView
-            android:id="@+id/badge_eyes"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/eyes" />
+            <ImageView
+                android:id="@+id/badge_target"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/target" />
 
-        <ImageView
-            android:id="@+id/badge_banned"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/banned" />
+            <ImageView
+                android:id="@+id/badge_eyes"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/eyes" />
 
-        <ImageView
-            android:id="@+id/badge_floppy_disk"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/floppy_disk" />
+            <ImageView
+                android:id="@+id/badge_banned"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/banned" />
 
-        <ImageView
-            android:id="@+id/badge_private_detective"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/private_detective" />
+            <ImageView
+                android:id="@+id/badge_floppy_disk"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/floppy_disk" />
 
-        <ImageView
-            android:id="@+id/badge_key"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/key" />
+            <ImageView
+                android:id="@+id/badge_private_detective"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/private_detective" />
 
-        <ImageView
-            android:id="@+id/badge_earth"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/earth" />
-    </GridLayout>
+            <ImageView
+                android:id="@+id/badge_key"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/key" />
+
+            <ImageView
+                android:id="@+id/badge_earth"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/earth" />
+
+            <!-- 🔥 NUOVO BADGE -->
+            <ImageView
+                android:id="@+id/badge_fact_check"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/fact_check" />
+        </GridLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/bottomNav"

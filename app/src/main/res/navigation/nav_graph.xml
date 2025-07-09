@@ -200,6 +200,9 @@
         <action
             android:id="@+id/action_quizFragment_to_domande"
             app:destination="@+id/domande"/>
+        <argument
+            android:name="argomento"
+            app:argType="string" />
 
     </fragment>
 
@@ -255,6 +258,11 @@
         android:id="@+id/domande"
         android:name="com.example.wa.presentation.quiz.Q_e_AFragment"
         android:label="domande">
+        <argument
+            android:name="argomento"
+            app:argType="string"
+            android:defaultValue="defaultArgomento"
+            />
         <action
             android:id="@+id/action_domandeFragment_to_goodFragment"
             app:destination="@+id/goodjobFragment"/>

@@ -1,21 +1,20 @@
 package com.example.wa.presentation.quiz
 
-import android.os.Bundle
-import android.view.View
-import androidx.navigation.fragment.findNavController
-import com.example.wa.R
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wa.R
 import com.example.wa.data.model.Quiz
 
-
-class QuizAdapter(private var lista: MutableList<Quiz>) :
-    RecyclerView.Adapter<QuizAdapter.ViewHolder>() {
+class QuizAdapter(
+    private var lista: MutableList<Quiz>,
+    private val onItemClick: (Quiz) -> Unit
+) : RecyclerView.Adapter<QuizAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titolo: TextView = view.findViewById(R.id.titoloTema)
@@ -41,11 +40,8 @@ class QuizAdapter(private var lista: MutableList<Quiz>) :
         holder.progresso.progress = progressoPercentuale
         holder.percentuale.text = "$progressoPercentuale%"
 
-        val bundle = Bundle().apply {
-            putString("argomento", argomento.argomentoKey)
-        }
         holder.itemView.setOnClickListener {
-            it.findNavController().navigate(R.id.action_quizFragment_to_domande, bundle)
+            onItemClick(argomento)
         }
     }
 

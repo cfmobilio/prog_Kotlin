@@ -101,7 +101,7 @@
                 android:id="@+id/continuaButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CONTINUA"
+                android:text="Passa al quiz"
                 android:backgroundTint="#FF7F3F"
                 android:textColor="#FFFFFF" />
         </LinearLayout>

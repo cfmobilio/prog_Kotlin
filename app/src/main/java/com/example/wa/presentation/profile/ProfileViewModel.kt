@@ -25,13 +25,17 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     private val _uiState = MutableLiveData<ProfileUiState>()
     val uiState: LiveData<ProfileUiState> = _uiState
 
-    // Cambiato a nullable per poter gestire lo stato "nessun evento"
     private val _navigationEvent = MutableLiveData<NavigationEvent?>()
     val navigationEvent: LiveData<NavigationEvent?> = _navigationEvent
 
-    // Cambiato a nullable per poter gestire lo stato "nessun messaggio"
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage
+
+    // Lista completa dei badge supportati
+    private val allBadgeKeys = listOf(
+        "lock", "banned", "target", "eyes", "fact_check",
+        "key", "private_detective", "floppy_disk", "earth", "compass"
+    )
 
     init {
         loadUserData()
@@ -46,7 +50,6 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
                 result.fold(
                     onSuccess = { profile ->
                         _profileData.value = profile
-                        _badges.value = profile.badges
                         updateProgressData(profile.badges)
                         _uiState.value = ProfileUiState.Success
                     },
@@ -64,7 +67,7 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
         viewModelScope.launch {
             try {
                 repository.logout()
-                _navigationEvent.value = NavigationEvent.NavigateToDestination(NavigationDestination.Profile) // Navigherà al login dal fragment
+                _navigationEvent.value = NavigationEvent.NavigateToDestination(NavigationDestination.Profile)
             } catch (e: Exception) {
                 _uiState.value = ProfileUiState.Error("Errore durante il logout: ${e.message}")
             }
@@ -74,14 +77,15 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     fun onBadgeClicked(badgeKey: String) {
         val descriptions = mapOf(
             "lock" to "Badge: Privacy Online",
-            "compass" to "Badge Navigazione",
-            "target" to "Badge Obiettivi",
-            "eyes" to "Badge Osservatore",
-            "banned" to "Badge Anti-Phishing",
-            "floppy_disk" to "Badge Backup",
-            "private_detective" to "Badge Investigatore",
+            "banned" to "Badge Cyberbullismo",
+            "target" to "Badge Phishing",
+            "eyes" to "Badge Dipendenza dai social",
+            "fact_check" to "Badge Fake news",
             "key" to "Badge: Sicurezza informatica",
-            "earth" to "Badge Globale"
+            "private_detective" to "Badge Truffe online",
+            "floppy_disk" to "Badge Protezione dei dati",
+            "earth" to "Badge Netiquette",
+            "compass" to "Badge Navigazione sicura"
         )
 
         _toastMessage.value = descriptions[badgeKey] ?: "Informazioni non disponibili"
@@ -91,9 +95,14 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
         _navigationEvent.value = NavigationEvent.NavigateToDestination(destination)
     }
 
-    private fun updateProgressData(badges: Map<String, Boolean>) {
-        val unlocked = badges.count { it.value }
-        val total = badges.size
+    private fun updateProgressData(userBadges: Map<String, Boolean>) {
+        // Assicura che tutti i badge siano presenti, anche se non sbloccati
+        val fullBadgeMap = allBadgeKeys.associateWith { key ->
+            userBadges[key] ?: false
+        }
+
+        val unlocked = fullBadgeMap.count { it.value }
+        val total = fullBadgeMap.size
         val percent = if (total > 0) (unlocked.toFloat() / total * 100).toInt() else 0
 
         _progressData.value = ProgressData(
@@ -101,14 +110,14 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
             total = total,
             percentage = percent
         )
+
+        _badges.value = fullBadgeMap
     }
 
-    // Funzione per resettare gli eventi di navigazione dopo che sono stati gestiti
     fun onNavigationEventHandled() {
         _navigationEvent.value = null
     }
 
-    // Funzione per resettare i toast dopo che sono stati gestiti
     fun onToastMessageHandled() {
         _toastMessage.value = null
     }

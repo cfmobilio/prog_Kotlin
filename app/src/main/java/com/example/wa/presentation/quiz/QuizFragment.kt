@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wa.R
-import android.widget.Toast
 
 class QuizFragment : Fragment() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: QuizAdapter
     private lateinit var viewModel: QuizListViewModel
@@ -36,7 +37,11 @@ class QuizFragment : Fragment() {
         recyclerView = view.findViewById(R.id.quiz)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = QuizAdapter(mutableListOf())
+        adapter = QuizAdapter(mutableListOf()) { quiz ->
+            val action = QuizFragmentDirections.actionQuizFragmentToDomande(argomento = quiz.argomentoKey)
+            findNavController().navigate(action)
+        }
+
         recyclerView.adapter = adapter
     }
 

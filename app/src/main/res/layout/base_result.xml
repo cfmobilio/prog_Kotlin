@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Abbiamo personalizzato il tuo percorso\nper aiutarti a navigare in modo più sicuro!"
+            android:text="Inzia il tuo percorso\nper navigare in modo più sicuro e consapevole!"
             android:textAlignment="center"
             android:textSize="16sp" />
     </LinearLayout>

@@ -26,7 +26,10 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/back"
-            android:contentDescription="Indietro" />
+            android:contentDescription="Indietro"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:layout_width="0dp"
@@ -40,34 +43,71 @@
     </LinearLayout>
 
     <!-- Contenuto accessibilità -->
-    <LinearLayout
-        android:id="@+id/accessibilityContent"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <Switch
-            android:id="@+id/switch_high_contrast"
+        <LinearLayout
+            android:id="@+id/accessibilityContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Alto contrasto" />
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <Switch
-            android:id="@+id/switch_big_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Testo ingrandito"
-            android:layout_marginTop="16dp"/>
+            <!-- Switch: Alto contrasto -->
+            <Switch
+                android:id="@+id/switch_high_contrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alto contrasto"
+                android:textSize="16sp"
+                android:padding="12dp" />
 
-        <Button
-            android:id="@+id/button_read_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Leggi testo"
-            android:layout_marginTop="24dp"/>
-    </LinearLayout>
+            <!-- Switch: Testo ingrandito -->
+            <Switch
+                android:id="@+id/switch_big_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Testo ingrandito"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Switch: TTS -->
+            <Switch
+                android:id="@+id/switch_tts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Abilita sintesi vocale (TTS)"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Testo da leggere -->
+            <TextView
+                android:id="@+id/text_to_read"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Esempio di testo letto da TTS."
+                android:textSize="16sp"
+                android:layout_marginTop="24dp"
+                android:padding="12dp"
+                android:textColor="#000" />
+
+            <!-- Bottone per leggere -->
+            <Button
+                android:id="@+id/button_read_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leggi testo"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:padding="16dp" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,7 +84,7 @@ class QuizQuestionViewModel(private val argomento: String) : ViewModel() {
 
             val nextIndex = currentIndex + 1
             if (nextIndex < questions.size) {
-                _currentQuestionIndex.value = nextIndex
+                _currentQuestionIndex.value = nextIndex  // <-- qui incrementi domandaCorrente
                 saveProgress()
             } else {
                 completeQuiz(newScore)
@@ -131,10 +131,11 @@ class QuizQuestionViewModel(private val argomento: String) : ViewModel() {
                 domandaCorrente = _currentQuestionIndex.value ?: 0,
                 punteggio = _score.value ?: 0
             )
-
+            println("Saving progress: domandaCorrente=${progress.domandaCorrente}, punteggio=${progress.punteggio}")
             repository.saveProgress(argomento, progress)
         }
     }
+
 
     fun saveCurrentProgress() {
         saveProgress()

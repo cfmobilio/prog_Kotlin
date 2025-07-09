@@ -76,15 +76,16 @@ class ProfileFragment : Fragment() {
     private fun initBadgeViews(view: View) {
         val badgeIds = mapOf(
             "lock" to R.id.badge_lock,
-            "compass" to R.id.badge_compass,
+            "banned" to R.id.badge_banned,
             "target" to R.id.badge_target,
             "eyes" to R.id.badge_eyes,
-            "banned" to R.id.badge_banned,
-            "floppy_disk" to R.id.badge_floppy_disk,
-            "private_detective" to R.id.badge_private_detective,
+            "fact_check" to R.id.badge_fact_check,
             "key" to R.id.badge_key,
-            "earth" to R.id.badge_earth
-        )
+            "private_detective" to R.id.badge_private_detective,
+            "floppy_disk" to R.id.badge_floppy_disk,
+            "earth" to R.id.badge_earth,
+            "compass" to R.id.badge_compass,
+            )
 
         badgeIds.forEach { (key, resId) ->
             view.findViewById<ImageView>(resId)?.let {
