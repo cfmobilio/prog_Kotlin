@@ -13,8 +13,8 @@ class QuizRepository {
 
     private val quizToBadgeMap = mapOf(
         "phishing" to "badge_phishing",
-        "privacy" to "badge_privacy",
         "cyberbullismo" to "badge_cyberbullismo",
+        "privacy" to "badge_privacy",
         "fake_news" to "badge_fake_news",
         "password" to "badge_password",
         "truffe" to "badge_truffe",

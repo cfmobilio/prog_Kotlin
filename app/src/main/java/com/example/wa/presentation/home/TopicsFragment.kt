@@ -35,7 +35,6 @@ class TopicsFragment : Fragment() {
         setupObservers()
         setupNavigation(view)
 
-        // Carica i dati
         val tipo = arguments?.getString("argomento") ?: "privacy"
         viewModel.loadTopic(tipo)
 
@@ -98,9 +97,9 @@ class TopicsFragment : Fragment() {
             findNavController().navigate(R.id.action_topicsFragment_to_homeFragment)
         }
 
-//        profileButton.setOnClickListener {
-//            findNavController().navigate(R.id.action_topicsFragment_to_profileFragment)
-//        }
+        profileButton.setOnClickListener {
+            findNavController().navigate(R.id.action_topicsFragment_to_profileFragment)
+        }
 
         homeButton.setOnClickListener {
             findNavController().navigate(R.id.action_topicsFragment_to_homeFragment)

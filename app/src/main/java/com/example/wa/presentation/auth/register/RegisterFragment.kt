@@ -2,7 +2,6 @@ package com.example.wa.presentation.auth.register
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,15 +26,12 @@ class RegisterFragment : Fragment() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                Log.d("GOOGLE_LOGIN", "Google account: ${account.email}")
                 Toast.makeText(requireContext(), "Account Google: ${account.email}", Toast.LENGTH_SHORT).show()
                 viewModel.registerWithGoogle(account)
             } catch (e: ApiException) {
-                Log.e("GOOGLE_LOGIN", "Google SignIn fallito: ${e.statusCode} - ${e.message}")
                 Toast.makeText(requireContext(), "Errore Google: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Log.e("GOOGLE_LOGIN", "Sign-In cancellato o fallito (code=${result.resultCode})")
             Toast.makeText(requireContext(), "Google Sign-In annullato o fallito", Toast.LENGTH_SHORT).show()
         }
     }
@@ -46,7 +42,6 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Google config
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -88,9 +83,6 @@ class RegisterFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.registerState.collectLatest { state ->
                 when (state) {
-                    is RegisterState.Loading -> {
-                        // mostra spinner se vuoi
-                    }
                     is RegisterState.Success -> {
                         Toast.makeText(requireContext(), "Registrazione completata!", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_registerFragment_to_homeFragment)

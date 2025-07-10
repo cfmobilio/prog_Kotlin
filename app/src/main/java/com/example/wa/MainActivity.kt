@@ -14,12 +14,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Carica le preferenze
+
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val highContrast = prefs.getBoolean(KEY_HIGH_CONTRAST, false)
         val largeText = prefs.getBoolean(KEY_LARGE_TEXT, false)
 
-        // Scegli il tema da applicare in base alle preferenze
         val themeToApply = when {
             highContrast -> R.style.Theme_WA_HighContrast
             largeText -> R.style.Theme_WA_LargeText
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    // AGGIUNTO: metodo chiamato dal Fragment
     fun applyHighContrast(enabled: Boolean) {
         updateHighContrast(enabled)
     }

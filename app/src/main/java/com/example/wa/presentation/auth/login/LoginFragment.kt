@@ -40,14 +40,12 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Google Sign-In Config
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        // UI Elements
         val emailEditText = view.findViewById<EditText>(R.id.emailEditText)
         val passwordEditText = view.findViewById<EditText>(R.id.passwordEditText)
         val loginButton = view.findViewById<Button>(R.id.loginButton)
@@ -55,7 +53,6 @@ class LoginFragment : Fragment() {
         val backButton = view.findViewById<ImageView>(R.id.backButton)
         val googleButton = view.findViewById<SignInButton>(R.id.googleSignInButton)
 
-        // Email/Password Login
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -67,23 +64,19 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Google Login
         googleButton.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-        // Forgot Password
         forgotPasswordTextView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
         }
 
-        // Back
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_accessoFragment)
         }
 
-        // Observer login state
         lifecycleScope.launchWhenStarted {
             viewModel.loginState.collectLatest { state ->
                 when (state) {

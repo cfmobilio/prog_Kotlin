@@ -32,7 +32,6 @@ class BadFragment : Fragment(R.layout.bad_job) {
         }
 
         riprovaButton.setOnClickListener {
-            // Ritorna al quiz per riprovare
             findNavController().navigate(R.id.action_badFragment_to_quizFragment)
         }
 

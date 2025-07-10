@@ -42,8 +42,18 @@ android {
     buildFeatures {
         dataBinding = true
     }
-}
 
+    packaging {
+        resources {
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+            excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/NOTICE.txt"
+            excludes += "META-INF/ASL2.0"
+
+        }
+    }
+}
 dependencies {
     // AndroidX e Material
     implementation("androidx.core:core-ktx:1.16.0")
@@ -75,14 +85,39 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.3.0")
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("androidx.navigationevent:navigationevent-android:1.0.0-alpha04")
+    implementation("androidx.room:room-external-antlr:2.7.2")
+    implementation("androidx.test.ext:junit-ktx:1.2.1")
     // Test
     testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.test:core:1.6.1")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
 
     implementation ("androidx.cardview:cardview:1.0.0")
+
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+
+    // Testing unitario (local tests)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.robolectric:robolectric:4.11.1")
+
+    // Instrumented tests (androidTest)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.fragment:fragment-testing:1.6.2")
+    androidTestImplementation("androidx.navigation:navigation-testing:2.7.5")
+    androidTestImplementation("io.mockk:mockk-android:1.13.8")
+    androidTestImplementation("org.mockito:mockito-android:5.7.0")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+
+    testImplementation("com.google.truth:truth:1.1.3")
 
 
 }

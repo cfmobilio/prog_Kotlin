@@ -28,7 +28,6 @@ class ProfileFragment : Fragment() {
     private lateinit var repository: ProfileRepository
     private lateinit var viewModelFactory: ProfileViewModelFactory
 
-    // UI Components
     private lateinit var profileName: TextView
     private lateinit var profileImage: ImageView
     private lateinit var backButton: ImageView
@@ -107,7 +106,6 @@ class ProfileFragment : Fragment() {
             showOverflowMenu(it)
         }
 
-        // Navigation buttons
         view.findViewById<View>(R.id.casa).setOnClickListener {
             viewModel.onNavigationClicked(NavigationDestination.Home)
         }
@@ -179,10 +177,8 @@ class ProfileFragment : Fragment() {
     private fun handleUiState(uiState: ProfileUiState) {
         when (uiState) {
             is ProfileUiState.Loading -> {
-                // Mostra loading indicator se necessario
             }
             is ProfileUiState.Success -> {
-                // Nasconde loading indicator se necessario
             }
             is ProfileUiState.Error -> {
                 Toast.makeText(context, uiState.message, Toast.LENGTH_SHORT).show()
@@ -208,16 +204,11 @@ class ProfileFragment : Fragment() {
                     NavigationDestination.Emergency ->
                         findNavController().navigate(R.id.action_profileFragment_to_emergency)
                     NavigationDestination.Profile -> {
-                        // Caso logout - naviga al login
                         findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
-                    }
-                    else -> {
-                        // Gestisci altre destinazioni se necessario
                     }
                 }
             }
             is NavigationEvent.NavigateToInsight -> {
-                // Gestisci la navigazione con argomento se necessario
                 findNavController().navigate(R.id.action_profileFragment_to_extraFragment)
             }
         }
@@ -240,12 +231,10 @@ class ProfileFragment : Fragment() {
                     true
                 }
                 R.id.menu_support -> {
-                    // Gestisci la navigazione al supporto direttamente nel fragment
                     findNavController().navigate(R.id.action_profileFragment_to_supportFragment)
                     true
                 }
                 R.id.accessibility -> {
-                    // Gestisci la navigazione all'accessibilità direttamente nel fragment
                     findNavController().navigate(R.id.action_profileFragment_to_accesibility)
                     true
                 }

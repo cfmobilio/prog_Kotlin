@@ -1,24 +1,39 @@
 package com.example.wa
 
-import androidx.test.platform.app.InstrumentationRegistry
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import com.example.wa.presentation.profile.TTSHelper
+import com.google.firebase.auth.FirebaseAuth
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
-
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
     @Test
     fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.wa", appContext.packageName)
+        val appContext = ApplicationProvider.getApplicationContext<Context>()
+        assertEquals("com.example.pro", appContext.packageName)
+    }
+
+    @Test
+    fun ttsHelper_enableDisableBehavior() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        TTSHelper.init(context.applicationContext as android.app.Application)
+
+        TTSHelper.setEnabled(true)
+        assertTrue("TTS dovrebbe essere abilitato", TTSHelper.isEnabled())
+
+        TTSHelper.setEnabled(false)
+        assertFalse("TTS dovrebbe essere disabilitato", TTSHelper.isEnabled())
+    }
+
+    @Test
+    fun testFirebaseAuthInitialization() {
+        val auth = FirebaseAuth.getInstance()
+        assert(auth != null)
+        assert(auth.currentUser == null)
     }
 }

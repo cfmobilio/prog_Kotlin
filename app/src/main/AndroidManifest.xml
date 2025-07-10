@@ -23,6 +23,7 @@
         android:theme="@style/Theme.WA"
         tools:targetApi="33">
 
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -33,7 +34,7 @@
         </activity>
         
         <service
-            android:name=".fcm.MyFirebaseMessagingService"
+            android:name=".MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

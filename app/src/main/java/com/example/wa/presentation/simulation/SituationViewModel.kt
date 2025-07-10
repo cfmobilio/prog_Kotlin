@@ -1,6 +1,5 @@
 package com.example.wa.presentation.simulation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wa.data.model.NavigationDestination
@@ -39,8 +38,6 @@ class SituationViewModel : ViewModel() {
         _navigationEvent.value = null
     }
 
-    // Aggiungi queste funzioni nel tuo SituationViewModel
-
     fun checkAnswerByCorrectness(isUserAnswerCorrect: Boolean) {
         val simulazione = _uiState.value.simulazione ?: return
 
@@ -78,7 +75,6 @@ class SituationViewModel : ViewModel() {
                     .await()
 
                 if (document.exists()) {
-                    Log.d("SituationViewModel", "Dati Firestore: ${document.data}")
 
                     val situationData = document.toObject(Simulazione::class.java)
 

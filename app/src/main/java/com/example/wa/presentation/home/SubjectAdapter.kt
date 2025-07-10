@@ -32,10 +32,8 @@ class SubjectAdapter(
         holder.titolo.text = argomento.titolo
         holder.icona.setImageResource(argomento.icona)
 
-        // Aggiungi una descrizione per le immagini (accessibilità)
         holder.icona.contentDescription = "Icona per l'argomento ${argomento.titolo}"
 
-        // Gestisci il click sull'elemento
         holder.itemView.setOnClickListener {
             val key = argomentiMap[argomento.titolo] ?: "altro"
 

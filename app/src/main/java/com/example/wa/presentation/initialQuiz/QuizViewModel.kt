@@ -92,11 +92,6 @@ class QuizViewModel : ViewModel() {
         }
     }
 
-    fun resetQuiz() {
-        _quizState.value = QuizState()
-        _quizResult.value = null
-    }
-
     fun clearNavigationEvent() {
         _navigationEvent.value = null
     }

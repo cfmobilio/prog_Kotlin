@@ -16,7 +16,6 @@ class QuestionsFragment : Fragment() {
 
     private val viewModel: QuizViewModel by viewModels()
 
-    // Elementi UI
     private lateinit var textTitoloDomanda: TextView
     private lateinit var textDomanda: TextView
     private lateinit var radioGroupOpzioni: RadioGroup
@@ -40,7 +39,6 @@ class QuestionsFragment : Fragment() {
         setupObservers()
         setupListeners()
 
-        // Carica le domande
         viewModel.loadQuestions()
     }
 
@@ -102,20 +100,16 @@ class QuestionsFragment : Fragment() {
 
     private fun updateUI(state: QuizState) {
 
-        // Gestisci errori
         state.error?.let { error ->
             Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
         }
 
-        // Mostra domanda
         state.currentQuestion?.let { question ->
             textTitoloDomanda.text = "Domanda ${state.currentQuestionIndex + 1}/${state.totalQuestions}"
             textDomanda.text = question.testo
 
-            // Reset selezione
             radioGroupOpzioni.clearCheck()
 
-            // Nascondi tutte le opzioni
             opzione1.visibility = View.GONE
             opzione2.visibility = View.GONE
             opzione3.visibility = View.GONE

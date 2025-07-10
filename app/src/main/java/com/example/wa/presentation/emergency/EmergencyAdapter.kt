@@ -36,13 +36,11 @@ class EmergencyAdapter(private var lista: List<Emergency>) :
         holder.sito.text = emergency.sito
         holder.contatto.text = emergency.contatto
 
-        // Apri il sito web quando si clicca sul sito
         holder.sito.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, emergency.sito.toUri())
             holder.itemView.context.startActivity(intent)
         }
 
-        // Apri il dialer o client email quando si clicca sul contatto
         holder.contatto.setOnClickListener {
             if (emergency.contatto.contains("@")) {
 
@@ -51,7 +49,6 @@ class EmergencyAdapter(private var lista: List<Emergency>) :
                 }
                 holder.itemView.context.startActivity(intent)
             } else {
-                // È un numero di telefono
                 val intent = Intent(Intent.ACTION_DIAL).apply {
                     data = "tel:${emergency.contatto}".toUri()
                 }
@@ -62,7 +59,6 @@ class EmergencyAdapter(private var lista: List<Emergency>) :
 
     override fun getItemCount(): Int = lista.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateEmergencies(newList: List<Emergency>) {
         lista = newList
         notifyDataSetChanged()

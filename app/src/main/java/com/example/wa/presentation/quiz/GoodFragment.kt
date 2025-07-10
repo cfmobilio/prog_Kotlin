@@ -22,7 +22,6 @@ class GoodFragment : Fragment(R.layout.good_job) {
         setupClickListeners(view)
         observeViewModel()
 
-        // Handle badge unlocking
         val quizId = arguments?.getString("quizId")
         val percentage = arguments?.getInt("percentage", 0) ?: 0
 

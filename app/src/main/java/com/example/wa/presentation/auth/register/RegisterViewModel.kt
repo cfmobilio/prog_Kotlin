@@ -1,6 +1,5 @@
 package com.example.wa.presentation.auth.register
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
@@ -79,7 +78,6 @@ class RegisterViewModel : ViewModel() {
                 _registerState.value = RegisterState.Success
             }
             .addOnFailureListener {
-                Log.e("RegisterViewModel", "Errore Firestore: ${it.message}")
                 _registerState.value = RegisterState.Error("Errore salvataggio Firestore")
             }
     }

@@ -97,10 +97,8 @@ class InsightFragment : Fragment() {
                     NavigationDestination.Home -> R.id.action_insightFragment_to_homeFragment
                     NavigationDestination.Quiz -> R.id.action_insightFragment_to_quizFragment
                     NavigationDestination.Simulation -> R.id.action_insightFragment_to_simulationFragment
-                    ///NavigationDestination.Extra -> R.id.action_insightFragment_to_extraFragment
                     NavigationDestination.Emergency -> R.id.action_insightFragment_to_emergencyFragment
                     NavigationDestination.Profile -> R.id.action_insightFragment_to_profileFragment
-                    //NavigationDestination.Back -> R.id.action_insightFragment_to_extraFragment
                     else -> return
                 }
                 findNavController().navigate(actionId)

@@ -1,4 +1,3 @@
-// AccessibilityFragment.kt - Versione semplificata
 package com.example.wa.presentation.profile
 
 import android.content.Context

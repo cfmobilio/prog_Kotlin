@@ -1,9 +1,14 @@
 package com.example.wa.presentation.quiz
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -11,9 +16,9 @@ import com.example.wa.R
 import com.example.wa.data.model.Question
 import com.example.wa.presentation.profile.enableTTS
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.FieldPath
 
 class Q_e_AFragment : Fragment() {
 
@@ -26,7 +31,6 @@ class Q_e_AFragment : Fragment() {
     private var domandaCorrente = 0
     private var punteggio = 0
 
-    // UI elements
     private lateinit var textTitoloDomanda: TextView
     private lateinit var textDomanda: TextView
     private lateinit var radioGroupOpzioni: RadioGroup
@@ -46,7 +50,6 @@ class Q_e_AFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        // Inizializza UI
         textTitoloDomanda = view.findViewById(R.id.textTitoloDomanda)
         textDomanda = view.findViewById(R.id.textDomanda)
         radioGroupOpzioni = view.findViewById(R.id.radioGroupOpzioni)
@@ -56,7 +59,6 @@ class Q_e_AFragment : Fragment() {
         buttonAvanti = view.findViewById(R.id.buttonAvanti)
         buttonIndietro = view.findViewById(R.id.buttonIndietro)
 
-        // Pulsante indietro generale (esci quiz)
         view.findViewById<View>(R.id.backbutton).setOnClickListener {
             salvaProgressoParziale()
             findNavController().navigate(R.id.action_domandeFragment_to_quizFragment)
@@ -67,7 +69,6 @@ class Q_e_AFragment : Fragment() {
         }
 
 
-        // Avanti: controlla risposta e vai avanti o finisci
         buttonAvanti.setOnClickListener {
             val selectedId = radioGroupOpzioni.checkedRadioButtonId
             if (selectedId != -1) {
@@ -78,7 +79,6 @@ class Q_e_AFragment : Fragment() {
                     else -> -1
                 }
 
-                // Se risposta corretta, aumenta punteggio
                 if (rispostaSelezionata == domande[domandaCorrente].rispostaCorretta) {
                     punteggio++
                 }
@@ -94,7 +94,6 @@ class Q_e_AFragment : Fragment() {
             }
         }
 
-        // Indietro: torna alla domanda precedente se possibile
         buttonIndietro.setOnClickListener {
             if (domandaCorrente > 0) {
                 domandaCorrente--
@@ -119,7 +118,6 @@ class Q_e_AFragment : Fragment() {
                 }
 
                 if (domande.isNotEmpty()) {
-                    // Se progresso errato, resetta
                     if (domandaCorrente >= domande.size) {
                         domandaCorrente = 0
                         punteggio = 0
@@ -146,19 +144,15 @@ class Q_e_AFragment : Fragment() {
 
         val domanda = domande[domandaCorrente]
 
-        // AGGIORNA L'UI CON I DATI DELLA DOMANDA
         textTitoloDomanda.text = "Domanda ${domandaCorrente + 1}/${domande.size}"
         textDomanda.text = domanda.testo
 
-        // Popola le opzioni di risposta
         opzione1.text = domanda.opzioni[0]
         opzione2.text = domanda.opzioni[1]
         opzione3.text = domanda.opzioni[2]
 
-        // Resetta la selezione del RadioGroup
         radioGroupOpzioni.clearCheck()
 
-        // Gestisci la visibilità dei pulsanti
         buttonIndietro.visibility = if (domandaCorrente > 0) View.VISIBLE else View.GONE
         buttonAvanti.text = if (domandaCorrente < domande.size - 1) "Avanti" else "Termina"
 
@@ -237,12 +231,6 @@ class Q_e_AFragment : Fragment() {
         badgeKey?.let {
             val badgeFieldPath = FieldPath.of("badges", it)
             db.collection("users").document(uid).update(badgeFieldPath, true)
-                .addOnSuccessListener {
-                    Log.d("DEBUG", "Badge $it correttamente sbloccato")
-                }
-                .addOnFailureListener { e ->
-                    Log.e("DEBUG", "Errore aggiornamento badge: ${e.message}")
-                }
         }
     }
 

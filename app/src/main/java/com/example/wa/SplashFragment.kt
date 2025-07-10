@@ -2,7 +2,6 @@ package com.example.wa
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,10 +28,8 @@ class SplashFragment : Fragment() {
 
             if (isFirstLaunch) {
                 prefs.edit { putBoolean("isFirstLaunch", false) }
-                Log.d("SplashFragment", "Sto facendo il primo accesso")
                 findNavController().navigate(R.id.action_splashFragment_to_quizIntroFragment)
             } else {
-                Log.e("SplashFragment", "Sto facendo il n+1 accesso")
                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
             }
         }, 2000)

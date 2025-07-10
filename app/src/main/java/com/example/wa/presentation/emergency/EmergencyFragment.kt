@@ -1,4 +1,3 @@
-// EmergencyFragment.kt - Versione semplificata
 package com.example.wa.presentation.emergency
 
 import android.graphics.Color

@@ -39,19 +39,16 @@ class ExtraFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Inizializzo l'adapter senza dati
         adapter = ExtraAdapter()
         binding.lista.layoutManager = LinearLayoutManager(requireContext())
         binding.lista.adapter = adapter
     }
 
     private fun setupObservers() {
-        // Osservo la lista di apps dal ViewModel e aggiorno l'adapter
         viewModel.apps.observe(viewLifecycleOwner) { appsList ->
             adapter.updateApps(appsList)
         }
 
-        // Osservo la mappa degli argomenti dal ViewModel e aggiorno l'adapter
         viewModel.argomentiMap.observe(viewLifecycleOwner) { map ->
             adapter.updateArgomentiMap(map)
         }

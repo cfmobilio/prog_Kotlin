@@ -18,18 +18,17 @@ object TextSizeHelper {
         }
     }
 
-    private fun applyLargeTextRecursively(view: View) {
+    fun applyLargeTextRecursively(view: View) {
         when (view) {
             is TextView -> {
                 val currentSize = view.textSize / view.resources.displayMetrics.scaledDensity
-                view.textSize = currentSize * 1.25f // Aumenta del 25%
+                view.textSize = currentSize * 1.25f
             }
             is Button -> {
                 val currentSize = view.textSize / view.resources.displayMetrics.scaledDensity
                 view.textSize = currentSize * 1.25f
             }
             is ViewGroup -> {
-                // Applica ricorsivamente a tutti i figli
                 for (i in 0 until view.childCount) {
                     applyLargeTextRecursively(view.getChildAt(i))
                 }
@@ -38,7 +37,6 @@ object TextSizeHelper {
     }
 }
 
-// Extension function per semplificare l'uso
 fun View.applyAccessibilityTextSize(context: Context) {
     TextSizeHelper.applyTextSizeToView(context, this)
 }

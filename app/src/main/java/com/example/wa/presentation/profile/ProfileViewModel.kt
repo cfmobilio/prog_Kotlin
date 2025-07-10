@@ -31,7 +31,6 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     private val _toastMessage = MutableLiveData<String?>()
     val toastMessage: LiveData<String?> = _toastMessage
 
-    // Lista completa dei badge supportati
     private val allBadgeKeys = listOf(
         "lock", "banned", "target", "eyes", "fact_check",
         "key", "private_detective", "floppy_disk", "earth", "compass"
@@ -96,7 +95,6 @@ class ProfileViewModel(private val repository: ProfileRepository) : ViewModel() 
     }
 
     private fun updateProgressData(userBadges: Map<String, Boolean>) {
-        // Assicura che tutti i badge siano presenti, anche se non sbloccati
         val fullBadgeMap = allBadgeKeys.associateWith { key ->
             userBadges[key] ?: false
         }

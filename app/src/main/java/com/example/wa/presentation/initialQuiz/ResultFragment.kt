@@ -41,7 +41,6 @@ class ResultFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Ottieni il tipo di risultato dagli argomenti
         val typeString = arguments?.getString(ARG_RESULT_TYPE) ?: "BASE"
         resultType = ResultType.valueOf(typeString)
     }
@@ -57,14 +56,12 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Osserva il risultato del quiz
         viewModel.quizResult.observe(viewLifecycleOwner) { result ->
             result?.let {
                 updateUI(view, it)
             }
         }
 
-        // Configura il pulsante
         view.findViewById<Button>(resultType.buttonId).setOnClickListener {
             findNavController().navigate(resultType.actionId)
         }
@@ -72,7 +69,6 @@ class ResultFragment : Fragment() {
 
     private fun updateUI(view: View, result: QuizResult) {
 
-        // Puoi aggiungere logica specifica per tipo se necessario
         when (resultType) {
             ResultType.BASE -> {
                 R.id.action_base_result_to_accessoFragment
@@ -89,7 +85,6 @@ class ResultFragment : Fragment() {
     companion object {
         private const val ARG_RESULT_TYPE = "result_type"
 
-        // Factory methods per creare istanze
         fun newInstanceBase(): ResultFragment {
             return ResultFragment().apply {
                 arguments = Bundle().apply {
